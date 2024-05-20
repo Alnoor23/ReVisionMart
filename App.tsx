@@ -39,7 +39,7 @@ export default function App() {
             padding: 10,
             borderColor: "#cfcfcf",
           }}
-          placeholder="Text"
+          placeholder="Enter Something"
           borderRadius={10}
           onChangeText={(text) => setMessage(text)}
         />
@@ -47,7 +47,7 @@ export default function App() {
         <Button
           title="Click Me!"
           onPress={() => console.log("message value:", message)}
-          textColor="dark"
+          textColor="white"
           width={"80%"}
         />
       </View>
