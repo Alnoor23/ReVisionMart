@@ -1,13 +1,47 @@
+import React, { useState, useEffect, useCallback } from "react";
+import * as SplashScreen from "expo-splash-screen";
 import { View } from "react-native";
 import Screen from "./src/components/Screen";
 import Heading from "./src/components/Heading";
 import Text from "./src/components/Text";
 import Input from "./src/components/Input";
 import Button from "./src/components/Button";
-import { useState } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+
+  // load stuff
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 sec timout for splash-screen
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  // hide splash-screen
+  useEffect(() => {
+    async function hideSplashSreen() {
+      if (appIsReady) {
+        return await SplashScreen.hideAsync();
+      }
+    }
+
+    hideSplashSreen();
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
 
   return (
     <Screen>
