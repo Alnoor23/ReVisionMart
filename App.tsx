@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import Screen from "./src/components/basic/Screen";
-import Login from "./src/screens/Login";
-import SignUp from "./src/screens/SignUp";
+import ForgotPassword from "./src/screens/ForgotPassword";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,7 +40,7 @@ export default function App() {
 
   return (
     <Screen>
-      <Login />
+      <ForgotPassword />
     </Screen>
   );
 }
