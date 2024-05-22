@@ -5,15 +5,14 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
 } from "react-native";
-import colors from "../config/colors";
+import colors from "../../config/colors";
 import { scale } from "react-native-size-matters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
   buttonColor?: keyof typeof colors;
   textColor?: keyof typeof colors;
   icon?: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -23,7 +22,7 @@ interface ButtonProps {
   bold?: boolean;
   borderRadius?: number;
   loading?: boolean;
-  error?: boolean;
+  error?: string;
   before?: boolean;
 }
 
@@ -39,7 +38,6 @@ const Button: React.FC<ButtonProps> = ({
   bold = false,
   borderRadius = 10,
   loading = false,
-  error,
   before = false,
 }) => {
   return (
@@ -88,9 +86,6 @@ const Button: React.FC<ButtonProps> = ({
           />
         ) : null}
       </TouchableOpacity>
-      {/* Note: Add error message component 
-        <ErrorMessage visible={!!error} error={error} />
-      */}
     </>
   );
 };

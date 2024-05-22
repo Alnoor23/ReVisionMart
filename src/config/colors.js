@@ -11,4 +11,5 @@ export default {
   mediumGray: "#6e6969",
   lightGray: "#ededed",
   transparent: "rgba(0,0,0,0)",
+  danger: "#ff5252",
 };

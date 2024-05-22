@@ -9,7 +9,8 @@ import {
   StatusBar as TopBar,
 } from "react-native";
 import * as Font from "expo-font";
-import colors from "../config/colors";
+import colors from "../../config/colors";
+import { scale } from "react-native-size-matters";
 
 interface ScreenProps {
   children: React.ReactNode;
@@ -20,9 +21,9 @@ const Screen: React.FC<ScreenProps> = ({ children }) => {
 
   async function loadFonts() {
     await Font.loadAsync({
-      Poppins: require("../../assets/fonts/13.otf"),
-      PoppinsBold: require("../../assets/fonts/15.otf"),
-      PoppinsXBold: require("../../assets/fonts/18.otf"),
+      Poppins: require("../../../assets/fonts/13.otf"),
+      PoppinsBold: require("../../../assets/fonts/15.otf"),
+      PoppinsXBold: require("../../../assets/fonts/18.otf"),
     });
     setFontLoaded(true);
   }
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     overflow: "hidden",
+    paddingHorizontal: scale(20),
   },
 });
 

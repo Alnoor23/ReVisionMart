@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Text as RnText,
-  StyleProp,
-  TextStyle,
-  TextProps as RnTextProps,
-  ViewStyle,
-} from "react-native";
+import { Text, StyleProp, TextStyle, TextProps, ViewStyle } from "react-native";
 import { scale } from "react-native-size-matters";
 import Separator from "./Separator";
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
-interface TextProps extends RnTextProps {
+interface HeadingProps extends TextProps {
   children: React.ReactNode;
   size?: number;
   color?: keyof typeof colors;
@@ -20,12 +14,13 @@ interface TextProps extends RnTextProps {
   bottomSpace?: number;
   topStyle?: StyleProp<ViewStyle>;
   bottomStyle?: StyleProp<ViewStyle>;
-  decoration?: "none" | "underline" | "line-through" | "underline line-through";
+  bold?: boolean;
 }
 
-const Text: React.FC<TextProps> = ({
+const Heading: React.FC<HeadingProps> = ({
   children,
-  size = 14,
+  size = 16,
+  bold = false,
   color = "primaryText",
   align = "left",
   style,
@@ -33,30 +28,28 @@ const Text: React.FC<TextProps> = ({
   bottomStyle,
   topSpace,
   bottomSpace,
-  decoration = "none",
   ...props
 }) => {
   return (
     <>
       {topSpace && <Separator height={topSpace} style={topStyle} />}
-      <RnText
+      <Text
         style={[
           {
             color: colors[color],
             fontSize: scale(size),
             textAlign: align,
-            fontFamily: "Poppins",
-            textDecorationLine: decoration,
+            fontFamily: bold ? "PoppinsXBold" : "PoppinsBold",
           },
           style,
         ]}
         {...props}
       >
         {children}
-      </RnText>
+      </Text>
       {bottomSpace && <Separator height={bottomSpace} style={bottomStyle} />}
     </>
   );
 };
 
-export default Text;
+export default Heading;
