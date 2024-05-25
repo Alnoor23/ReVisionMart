@@ -46,7 +46,7 @@ const Screen: React.FC<ScreenProps> = ({ children }) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" backgroundColor={colors.primaryTheme} animated />
       <View style={styles.container}>{children}</View>
     </SafeAreaView>
   );

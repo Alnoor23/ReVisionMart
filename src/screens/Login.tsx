@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Heading, Separator, Text } from "../components/basic";
 import { Form, FormField, SubmitButton } from "../components/form";
 import Checkbox from "expo-checkbox";
@@ -30,7 +35,9 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         <Form
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) =>
+            console.log(values, { rememberCreds: rememberCreds })
+          }
         >
           <FormField
             name="email"
@@ -58,9 +65,13 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
               onValueChange={() => setRememberCreds(!rememberCreds)}
               color={rememberCreds ? colors.primaryTheme : colors.mediumGray}
             />
-            <Text color="mediumGray" size={12}>
-              Remember Me
-            </Text>
+            <TouchableWithoutFeedback
+              onPress={() => setRememberCreds(!rememberCreds)}
+            >
+              <Text color="mediumGray" size={12}>
+                Remember Me
+              </Text>
+            </TouchableWithoutFeedback>
           </View>
           <View
             style={{
