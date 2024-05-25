@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import { customDefaultTheme } from "./src/navigation/navigationTheme";
 import Screen from "./src/components/basic/Screen";
-import ForgotPassword from "./src/screens/ForgotPassword";
+import AuthNavigator from "./src/navigation/AuthNavigator";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,7 +42,9 @@ export default function App() {
 
   return (
     <Screen>
-      <ForgotPassword />
+      <NavigationContainer theme={customDefaultTheme}>
+        <AuthNavigator />
+      </NavigationContainer>
     </Screen>
   );
 }

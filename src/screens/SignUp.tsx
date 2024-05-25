@@ -3,10 +3,16 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import * as Yup from "yup";
 import { Form, FormField, SubmitButton } from "../components/form";
 import { Heading, Separator, Text } from "../components/basic";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./types";
 
-const SignUp = () => {
+interface SignUpScreenProps {
+  navigation: StackNavigationProp<RootStackParamList, "SignUpScreen">;
+}
+
+const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
   const validationSchema = Yup.object({
-    name: Yup.string().min(3).max(6).required(),
+    name: Yup.string().min(3).max(15).required(),
     email: Yup.string().email().min(5).max(255).required(),
     password: Yup.string().min(8).max(1024).required(),
   });
@@ -70,8 +76,10 @@ const SignUp = () => {
             }}
           >
             <Text size={12}>Already have an account? </Text>
-            <TouchableOpacity>
-              <Text size={12} color="primaryTheme">
+            <TouchableOpacity
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              <Text size={12} color="primaryTheme" decoration="underline">
                 login
               </Text>
             </TouchableOpacity>

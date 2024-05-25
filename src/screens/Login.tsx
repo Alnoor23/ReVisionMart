@@ -5,8 +5,14 @@ import { Form, FormField, SubmitButton } from "../components/form";
 import Checkbox from "expo-checkbox";
 import * as Yup from "yup";
 import colors from "../config/colors";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./types";
 
-const Login = () => {
+interface LoginScreenProps {
+  navigation: StackNavigationProp<RootStackParamList, "LoginScreen">;
+}
+
+const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [rememberCreds, setRememberCreds] = useState(false);
 
   const validationSchema = Yup.object({
@@ -65,7 +71,9 @@ const Login = () => {
             }}
           >
             <Text size={12}>Forgot password? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ForgotPasswordScreen")}
+            >
               <Text size={12} color="primaryTheme">
                 Click here
               </Text>
@@ -83,8 +91,10 @@ const Login = () => {
             }}
           >
             <Text size={12}>Don't have an account? </Text>
-            <TouchableOpacity>
-              <Text size={12} color="primaryTheme">
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SignUpScreen")}
+            >
+              <Text size={12} color="primaryTheme" decoration="underline">
                 Sign up
               </Text>
             </TouchableOpacity>

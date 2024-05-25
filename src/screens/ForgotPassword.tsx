@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Heading, Separator, Text } from "../components/basic";
+import { Heading, Text } from "../components/basic";
 import { Form, FormField, SubmitButton } from "../components/form";
-import Checkbox from "expo-checkbox";
 import * as Yup from "yup";
-import colors from "../config/colors";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./types";
 
-const ForgotPassword = () => {
+interface ForgotPasswordScreenProp {
+  navigation: StackNavigationProp<RootStackParamList, "ForgotPasswordScreen">;
+}
+
+const ForgotPassword: React.FC<ForgotPasswordScreenProp> = ({ navigation }) => {
   const validationSchema = Yup.object({
     email: Yup.string().email().min(5).max(255).required(),
   });
@@ -40,7 +44,7 @@ const ForgotPassword = () => {
             }}
           >
             <Text size={12}>Don't want to continue? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text size={12} color="primaryTheme">
                 Go back
               </Text>
