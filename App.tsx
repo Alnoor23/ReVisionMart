@@ -3,7 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { customDefaultTheme } from "./src/navigation/navigationTheme";
 import Screen from "./src/components/basic/Screen";
-import AuthNavigator from "./src/navigation/AuthNavigator";
+import MainBottomNavigator from "./src/navigation/MainBottomNavigator";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <Screen>
       <NavigationContainer theme={customDefaultTheme}>
-        <AuthNavigator />
+        <MainBottomNavigator />
       </NavigationContainer>
     </Screen>
   );
