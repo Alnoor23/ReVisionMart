@@ -1,6 +1,6 @@
 export default {
   primaryTheme: "#3F51B5",
-  secondaryTheme: "#FF4081",
+  secondaryTheme: "#F9C80E",
   background: "#F5F5F5",
   black: "#000",
   white: "#fff",
@@ -8,6 +8,7 @@ export default {
   primaryText: "#333333",
   lightGrayText: "#cfcfcf",
   mediumGrayText: "#6e6969",
+  iconGray: "#a7a9b0",
   mediumGray: "#6e6969",
   lightGray: "#ededed",
   transparent: "rgba(0,0,0,0)",
