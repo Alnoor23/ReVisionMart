@@ -9,8 +9,6 @@ import Cart from "../screens/Cart";
 import Profile from "../screens/Profile";
 import colors from "../config/colors";
 
-const { width } = Dimensions.get("window");
-
 const Tab = createBottomTabNavigator();
 
 function MainBottomNavigator() {
@@ -23,8 +21,6 @@ function MainBottomNavigator() {
         tabBarStyle: {
           elevation: 0,
           height: 60,
-          width: width,
-          marginLeft: -25,
         },
       }}
     >

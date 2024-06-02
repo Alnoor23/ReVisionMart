@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     overflow: "hidden",
-    paddingHorizontal: scale(20),
+    // paddingHorizontal: scale(20),
   },
 });
 

@@ -5,6 +5,7 @@ import { Form, FormField, SubmitButton } from "../components/form";
 import * as Yup from "yup";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types";
+import { scale } from "react-native-size-matters";
 
 interface ForgotPasswordScreenProp {
   navigation: StackNavigationProp<RootStackParamList, "ForgotPasswordScreen">;
@@ -57,7 +58,12 @@ const ForgotPassword: React.FC<ForgotPasswordScreenProp> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: scale(20),
+  },
   formContainer: { width: "100%" },
 });
 
