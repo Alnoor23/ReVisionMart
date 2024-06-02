@@ -3,6 +3,7 @@ export type RootStackParamList = {
   SignUpScreen: undefined;
   ForgotPasswordScreen: undefined;
   // Details: { itemId: number; otherParam: string };
+  HomeNavigatorScreen: undefined;
 };
 
 export type RootBotttomTabParamList = {

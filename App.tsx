@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { customDefaultTheme } from "./src/navigation/navigationTheme";
 import Screen from "./src/components/basic/Screen";
 import MainBottomNavigator from "./src/navigation/MainBottomNavigator";
-
+import AuthNavigator from "./src/navigation/AuthNavigator";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <Screen>
       <NavigationContainer theme={customDefaultTheme}>
-        <MainBottomNavigator />
+        <AuthNavigator />
       </NavigationContainer>
     </Screen>
   );

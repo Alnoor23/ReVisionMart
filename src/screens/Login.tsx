@@ -28,6 +28,7 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleSubmit = (values: FormikValues) => {
     console.log(values, { rememberCreds: rememberCreds });
+    navigation.navigate("HomeNavigatorScreen");
   };
 
   return (

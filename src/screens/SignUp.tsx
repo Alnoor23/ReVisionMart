@@ -20,6 +20,7 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
 
   const handleSubmit = (values: FormikValues) => {
     console.log(values);
+    navigation.navigate("HomeNavigatorScreen");
   };
 
   return (
