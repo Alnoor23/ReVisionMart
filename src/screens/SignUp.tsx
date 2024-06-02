@@ -5,6 +5,7 @@ import { Form, FormField, SubmitButton } from "../components/form";
 import { Heading, Separator, Text } from "../components/basic";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types";
+import { FormikValues } from "formik";
 
 interface SignUpScreenProps {
   navigation: StackNavigationProp<RootStackParamList, "SignUpScreen">;
@@ -16,6 +17,11 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
     email: Yup.string().email().min(5).max(255).required(),
     password: Yup.string().min(8).max(1024).required(),
   });
+
+  const handleSubmit = (values: FormikValues) => {
+    console.log(values);
+  };
+
   return (
     <View style={styles.container}>
       <Heading color="primaryTheme" size={32} bottomSpace={40} bold>
@@ -26,7 +32,7 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
         <Form
           initialValues={{ name: "", email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={handleSubmit}
         >
           <FormField name="name" placeholder="Username" />
 

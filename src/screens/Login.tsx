@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import colors from "../config/colors";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types";
+import { FormikValues } from "formik";
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<RootStackParamList, "LoginScreen">;
@@ -25,6 +26,10 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
     password: Yup.string().min(8).max(1024).required(),
   });
 
+  const handleSubmit = (values: FormikValues) => {
+    console.log(values, { rememberCreds: rememberCreds });
+  };
+
   return (
     <View style={styles.container}>
       <Heading color="primaryTheme" size={32} bottomSpace={40} bold>
@@ -35,9 +40,7 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         <Form
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={(values) =>
-            console.log(values, { rememberCreds: rememberCreds })
-          }
+          onSubmit={handleSubmit}
         >
           <FormField
             name="email"
