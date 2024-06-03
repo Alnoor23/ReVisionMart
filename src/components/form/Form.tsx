@@ -2,24 +2,21 @@ import React from "react";
 import { Formik, FormikHelpers, FormikValues } from "formik";
 import * as Yup from "yup";
 
-interface FormProps extends FormikValues {
-  initialValues: FormikValues;
-  onSubmit: (
-    values: FormikValues,
-    formikHelpers: FormikHelpers<FormikValues>
-  ) => void | Promise<any>;
+interface FormProps<T> {
+  initialValues: T;
+  onSubmit: (values: T, formikHelpers: FormikHelpers<T>) => void | Promise<any>;
   validationSchema: Yup.ObjectSchema<any>;
   children: React.ReactNode;
 }
 
-function Form({
+function Form<T extends FormikValues>({
   initialValues,
   onSubmit,
   validationSchema,
   children,
-}: FormProps) {
+}: FormProps<T>) {
   return (
-    <Formik
+    <Formik<T>
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}

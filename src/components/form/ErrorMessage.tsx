@@ -12,7 +12,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, visible }) => {
 
   return (
     <View style={styles.errorContainer}>
-      <Text size={12} color="danger">
+      <Text align="center" size={12} color="danger">
         {error}
       </Text>
     </View>

@@ -5,10 +5,19 @@ import { customDefaultTheme } from "./src/navigation/navigationTheme";
 import Screen from "./src/components/basic/Screen";
 import MainBottomNavigator from "./src/navigation/MainBottomNavigator";
 import AuthNavigator from "./src/navigation/AuthNavigator";
+import AuthContext, { User } from "./src/context/AuthContext";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
+
+  const [user, setUser] = useState<User | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>("");
+
+  useEffect(() => {
+    console.log(`authToken changed :${authToken}`);
+  }, [authToken]);
 
   // load stuff
   useEffect(() => {
@@ -42,9 +51,11 @@ export default function App() {
 
   return (
     <Screen>
-      <NavigationContainer theme={customDefaultTheme}>
-        <AuthNavigator />
-      </NavigationContainer>
+      <AuthContext.Provider value={{ user, setUser, authToken, setAuthToken }}>
+        <NavigationContainer theme={customDefaultTheme}>
+          <AuthNavigator />
+        </NavigationContainer>
+      </AuthContext.Provider>
     </Screen>
   );
 }

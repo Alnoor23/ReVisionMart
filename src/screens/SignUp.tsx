@@ -1,27 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import * as Yup from "yup";
-import { Form, FormField, SubmitButton } from "../components/form";
+import {
+  ErrorMessage,
+  Form,
+  FormField,
+  SubmitButton,
+} from "../components/form";
 import { Heading, Separator, Text } from "../components/basic";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types";
-import { FormikValues } from "formik";
 import { scale } from "react-native-size-matters";
+import { signUp } from "../api/user";
+import { useAuthContext } from "../context/AuthContext";
 
 interface SignUpScreenProps {
   navigation: StackNavigationProp<RootStackParamList, "SignUpScreen">;
 }
 
+interface SignUpFormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
+  const { setUser, setAuthToken } = useAuthContext();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const validationSchema = Yup.object({
-    name: Yup.string().min(3).max(15).required(),
-    email: Yup.string().email().min(5).max(255).required(),
-    password: Yup.string().min(8).max(1024).required(),
+    name: Yup.string()
+      .min(3, "Name must be at least 3 characters long")
+      .max(15, "Name cannot exceed 15 characters")
+      .required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email")
+      .min(5, "Email must be at least 5 characters long")
+      .max(255, "Email cannot exceed 255 characters")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(1024, "Password cannot exceed 1024 characters")
+      .required("Password is required"),
   });
 
-  const handleSubmit = (values: FormikValues) => {
-    console.log(values);
-    navigation.navigate("HomeNavigatorScreen");
+  const handleSubmit = async (values: SignUpFormValues) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const { data, status, headers } = await signUp(values);
+      console.log(data);
+
+      if (status !== 200) {
+        setError(data?.message || "An unexpected error occurred.");
+        return;
+      }
+
+      if (data) setUser(data);
+      if (headers?.["x-auth-token"]) setAuthToken(headers["x-auth-token"]);
+
+      navigation.navigate("HomeNavigatorScreen");
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+      console.log("ERROR THIS:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,7 +78,7 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
       </Heading>
 
       <View style={styles.formContainer}>
-        <Form
+        <Form<SignUpFormValues>
           initialValues={{ name: "", email: "", password: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -49,14 +96,7 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
 
           <Separator height={15} />
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
+          <View style={styles.termsContainer}>
             <Text size={10}>By continuing, you agree to our </Text>
             <TouchableOpacity>
               <Text size={10} color="primaryTheme">
@@ -71,18 +111,10 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <SubmitButton title="SIGN UP" bold />
+          <SubmitButton title="SIGN UP" bold loading={loading} />
+          <ErrorMessage error={error} visible={!!error} />
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              margin: "auto",
-              marginTop: 12,
-              marginBottom: 40,
-            }}
-          >
+          <View style={styles.bottomMessageContainer}>
             <Text size={12}>Already have an account? </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("LoginScreen")}
@@ -106,6 +138,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(20),
   },
   formContainer: { width: "100%" },
+  termsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  bottomMessageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    margin: "auto",
+    marginTop: 12,
+    marginBottom: 40,
+  },
 });
 
 export default SignUp;
