@@ -52,7 +52,7 @@ const Home = () => {
       </View>
       <View style={styles.carouselContainer}>
         {loading ? (
-          <ActivityIndicator />
+          <ActivityIndicator size={scale(25)} color={colors.primaryTheme} />
         ) : (
           promotionItems && (
             <>
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   carouselContainer: {
     backgroundColor: "#fff",
     height: width / 1.8,
+    justifyContent: "center",
   },
   dotsContainer: {
     flexDirection: "row",
