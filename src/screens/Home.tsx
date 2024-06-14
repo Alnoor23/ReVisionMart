@@ -6,13 +6,14 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import { Heading } from "../components/basic";
+import { Heading, Input } from "../components/basic";
 import Carousel from "react-native-reanimated-carousel";
+import SearchInput from "../components/SearchInput";
 import colors from "../config/colors";
 import { useAuthContext } from "../context/AuthContext";
 import { getCarouselItems } from "../api/services";
-import { Product } from "../api/types";
 import { scale } from "react-native-size-matters";
+import { Product } from "../api/types";
 
 const { width } = Dimensions.get("window");
 
@@ -49,6 +50,7 @@ const Home = () => {
         <Heading color="white" align="center" topSpace={5} bottomSpace={5} bold>
           ReVision
         </Heading>
+        <SearchInput placeholder="SmartPhone" />
       </View>
       <View style={styles.carouselContainer}>
         {loading ? (

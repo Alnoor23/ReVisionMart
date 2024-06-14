@@ -22,6 +22,7 @@ function MainBottomNavigator() {
           elevation: 0,
           height: 60,
         },
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen
