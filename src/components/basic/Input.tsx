@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    textAlign: "left",
     fontSize: scale(12),
     fontFamily: "PoppinsBold",
   },
