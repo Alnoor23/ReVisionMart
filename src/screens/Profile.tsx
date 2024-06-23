@@ -1,13 +1,24 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Heading } from "../components/basic";
+import { Button, Heading, Separator } from "../components/basic";
+import { useAuthContext } from "../context/AuthContext";
+import { deleteAuthToken } from "../storage/authStorage";
 
 const Profile = () => {
+  const { setAuthToken } = useAuthContext();
   return (
     <View style={styles.container}>
       <Heading color="primaryTheme" align="center">
         Profile Screen
       </Heading>
+      <Separator />
+      <Button
+        title="LOGOUT"
+        onPress={() => {
+          setAuthToken(null);
+          deleteAuthToken();
+        }}
+      />
     </View>
   );
 };
@@ -17,6 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     justifyContent: "center",
+    paddingHorizontal: 20,
   },
 });
 

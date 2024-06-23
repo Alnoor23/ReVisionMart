@@ -6,6 +6,7 @@ import Screen from "./src/components/basic/Screen";
 import MainBottomNavigator from "./src/navigation/MainBottomNavigator";
 import AuthNavigator from "./src/navigation/AuthNavigator";
 import AuthContext, { User } from "./src/context/AuthContext";
+import { getAuthToken } from "./src/storage/authStorage";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,7 +24,10 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 sec timout for splash-screen
+        const token = await getAuthToken();
+        if (token) {
+          setAuthToken(token);
+        }
       } catch (e) {
         console.warn(e);
       } finally {
@@ -53,7 +57,7 @@ export default function App() {
     <Screen>
       <AuthContext.Provider value={{ user, setUser, authToken, setAuthToken }}>
         <NavigationContainer theme={customDefaultTheme}>
-          <AuthNavigator />
+          {authToken ? <MainBottomNavigator /> : <AuthNavigator />}
         </NavigationContainer>
       </AuthContext.Provider>
     </Screen>

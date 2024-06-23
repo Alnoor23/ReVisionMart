@@ -20,6 +20,7 @@ import { RootStackParamList } from "./types";
 import { scale } from "react-native-size-matters";
 import { login } from "../api/user";
 import AuthContext from "../context/AuthContext";
+import { storeAuthToken } from "../storage/authStorage";
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<RootStackParamList, "LoginScreen">;
@@ -65,9 +66,10 @@ const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         return;
       }
 
-      if (data?.token) authContext?.setAuthToken(data.token);
-
-      navigation.navigate("HomeNavigatorScreen");
+      if (data?.token) {
+        authContext?.setAuthToken(data.token);
+        if (rememberCreds) storeAuthToken(data.token);
+      }
     } catch (err) {
       setError("Login failed. Please try again.");
       console.log("ERROR THIS:", err);

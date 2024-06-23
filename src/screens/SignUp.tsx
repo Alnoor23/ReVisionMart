@@ -13,6 +13,7 @@ import { RootStackParamList } from "./types";
 import { scale } from "react-native-size-matters";
 import { signUp } from "../api/user";
 import { useAuthContext } from "../context/AuthContext";
+import { storeAuthToken } from "../storage/authStorage";
 
 interface SignUpScreenProps {
   navigation: StackNavigationProp<RootStackParamList, "SignUpScreen">;
@@ -60,7 +61,10 @@ const SignUp: React.FC<SignUpScreenProps> = ({ navigation }) => {
       }
 
       if (data) setUser(data);
-      if (headers?.["x-auth-token"]) setAuthToken(headers["x-auth-token"]);
+      if (headers?.["x-auth-token"]) {
+        setAuthToken(headers["x-auth-token"]);
+        storeAuthToken(headers["x-auth-token"]);
+      }
 
       navigation.navigate("HomeNavigatorScreen");
     } catch (err) {

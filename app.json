@@ -13,7 +13,10 @@
     },
     "ios": {
       "userInterfaceStyle": "automatic",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "userInterfaceStyle": "automatic",
@@ -25,8 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font", "expo-secure-store"]
   }
 }
