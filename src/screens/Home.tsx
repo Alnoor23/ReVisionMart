@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  ActivityIndicator,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { Text, Heading } from "../components/basic";
-import Carousel from "react-native-reanimated-carousel";
 import SearchInput from "../components/SearchInput";
 import MasonryList from "@react-native-seoul/masonry-list";
+import AppCarousel from "../components/AppCarousel";
 import ProductCard from "../components/ProductCard";
 import colors from "../config/colors";
 import { useAuthContext } from "../context/AuthContext";
 import { getCarouselItems, getProducts } from "../api/services";
-import { scale } from "react-native-size-matters";
 import { Product } from "../api/types";
 
-const { width } = Dimensions.get("window");
-
 const Home = () => {
-  const [loading, setLoading] = useState<Boolean | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const { authToken } = useAuthContext();
   const [promotionItems, setPromotionItems] = useState<Product[] | null>(null);
-  const [carouselCurrentIndex, setCarouselCurrentIndex] = useState<number>(0);
   const [products, setProducts] = useState<Product[] | null>(null);
 
   //get data
@@ -70,61 +59,11 @@ const Home = () => {
         </Heading>
         <SearchInput placeholder="SmartPhone" />
       </View>
-      <ScrollView stickyHeaderIndices={[1]}>
-        <View style={styles.carouselContainer}>
-          {loading ? (
-            <ActivityIndicator size={scale(25)} color={colors.primaryTheme} />
-          ) : (
-            promotionItems && (
-              <>
-                <Carousel
-                  loop
-                  autoPlay
-                  height={width / 1.8}
-                  width={width}
-                  data={promotionItems}
-                  scrollAnimationDuration={2000}
-                  onSnapToItem={(index) => setCarouselCurrentIndex(index)}
-                  renderItem={({ item }) => (
-                    <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                      }}
-                    >
-                      <View style={{ alignItems: "center" }}>
-                        <Image
-                          source={{
-                            uri: item.images[0],
-                          }}
-                          height={width / 1.8}
-                          width={width}
-                          resizeMode="center"
-                        />
-                      </View>
-                    </View>
-                  )}
-                />
-                <View style={styles.dotsContainer}>
-                  {promotionItems?.map((_, index) => (
-                    <View
-                      key={index}
-                      style={[
-                        styles.dot,
-                        {
-                          backgroundColor:
-                            index === carouselCurrentIndex
-                              ? colors.primaryTheme
-                              : colors.lightGray,
-                        },
-                      ]}
-                    />
-                  ))}
-                </View>
-              </>
-            )
-          )}
-        </View>
+      <ScrollView
+        stickyHeaderIndices={[1]}
+        showsVerticalScrollIndicator={false}
+      >
+        <AppCarousel loading={loading} data={promotionItems} />
 
         <View style={{ height: 80, backgroundColor: "red", marginTop: 10 }}>
           <Text align="center">Categories</Text>
@@ -159,23 +98,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomLeftRadius: 35,
     borderBottomRightRadius: 35,
-  },
-  carouselContainer: {
-    backgroundColor: "#fff",
-    height: width / 1.8,
-    justifyContent: "center",
-  },
-  dotsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dot: {
-    width: scale(8),
-    height: scale(8),
-    borderRadius: scale(4),
-    marginHorizontal: scale(4),
-    opacity: 0.8,
   },
   productsContainer: {
     flex: 1,
