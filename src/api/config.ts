@@ -1,7 +1,7 @@
 import { create } from "apisauce";
 
 const apiClient = create({
-  baseURL: "http://192.168.1.86:5000/api/",
+  baseURL: "http://192.168.1.102:5000/api/",
 });
 
 const setAuthToken = (token: string | null) => {
