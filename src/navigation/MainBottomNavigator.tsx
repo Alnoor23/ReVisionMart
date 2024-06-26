@@ -32,7 +32,7 @@ function MainBottomNavigator() {
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
               name="format-list-bulleted"
-              size={focused ? size + 10 : size}
+              size={size}
               color={focused ? colors.primaryTheme : colors.iconGray}
             />
           ),
