@@ -7,6 +7,11 @@ interface Product {
   images: string[];
 }
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
 interface RegisterResponseBody {
   _id: string;
   name: string;
@@ -23,6 +28,7 @@ type CarouselResponseBody = Product[];
 
 export {
   Product,
+  Category,
   LoginResponseBody,
   RegisterResponseBody,
   CarouselResponseBody,

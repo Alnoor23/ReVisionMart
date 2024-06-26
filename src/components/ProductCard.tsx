@@ -11,7 +11,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { _id, title, description, category, images, price } = product;
   return (
     <View style={styles.container}>
-      <Text color="white" topSpace={10} bottomSpace={10}>
+      <Text color="primaryTheme" topSpace={10} bottomSpace={10}>
         {title}
       </Text>
     </View>

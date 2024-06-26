@@ -1,5 +1,5 @@
 import { apiClient, setAuthToken } from "./config";
-import { CarouselResponseBody, Product } from "./types";
+import { CarouselResponseBody, Product, Category } from "./types";
 const prefix = "products/";
 
 const getCarouselItems = (token: string) => {
@@ -12,4 +12,9 @@ const getProducts = (token: string) => {
   return apiClient.get<Product[]>(`${prefix}`);
 };
 
-export { getCarouselItems, getProducts };
+const getCategories = (token: string) => {
+  setAuthToken(token);
+  return apiClient.get<Category[]>(`/categories`);
+};
+
+export { getCarouselItems, getProducts, getCategories };
