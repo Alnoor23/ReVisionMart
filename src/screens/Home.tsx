@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
+  Image,
   ScrollView,
   TouchableOpacity,
   GestureResponderEvent,
   ActivityIndicator,
 } from "react-native";
-import { Text, Heading } from "../components/basic";
+import { Heading } from "../components/basic";
 import SearchInput from "../components/SearchInput";
 import MasonryList from "@react-native-seoul/masonry-list";
 import AppCarousel from "../components/AppCarousel";
@@ -24,6 +25,7 @@ const Home = () => {
   const [products, setProducts] = useState<Product[] | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
 
+  const [productLayout, setProductLayout] = useState<1 | 2>(2);
   //get data
   useEffect(() => {
     setLoading(true);
@@ -121,15 +123,41 @@ const Home = () => {
         )}
 
         <View style={styles.productsContainer}>
-          <Heading topSpace={10} bottomSpace={10} color="primaryTheme">
-            For You
-          </Heading>
+          <View style={styles.productsHeader}>
+            <View>
+              <Heading topSpace={10} bottomSpace={10} color="primaryTheme">
+                For You
+              </Heading>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {productLayout === 2 ? (
+                <TouchableOpacity onPress={() => setProductLayout(1)}>
+                  <Image
+                    style={{ height: 20, width: 24, resizeMode: "contain" }}
+                    source={require("../../assets/icons/layout-double.png")}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => setProductLayout(2)}>
+                  <Image
+                    style={{ height: 12, width: 24, resizeMode: "contain" }}
+                    source={require("../../assets/icons/layout-single.png")}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
 
           {products && (
             <MasonryList
               scrollEnabled={false}
               data={products}
-              numColumns={1}
+              numColumns={productLayout}
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => (
                 <ProductCard product={item as Product} />
@@ -152,6 +180,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 10,
     paddingBottom: 10,
+  },
+  productsHeader: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
   },
   categoryContainer: {
     flex: 1,
