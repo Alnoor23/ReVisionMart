@@ -1,6 +1,7 @@
 export default {
   primaryTheme: "#3F51B5",
-  secondaryTheme: "#F9C80E",
+  // secondaryTheme: "#F9C80E",
+  secondaryTheme: "#ffa600",
   background: "#F5F5F5",
   black: "#000",
   white: "#fff",
