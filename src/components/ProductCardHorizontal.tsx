@@ -6,14 +6,34 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Heading } from "../components/basic";
+import { Heading, Separator } from "./basic";
 import { Product } from "../api/types";
 
-interface ProductCardProps {
+interface ProductCardHorizontalProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+{
+  /* <View>
+  <Heading size={14} color="primaryTheme" topSpace={10} bottomSpace={10}>
+    {title}
+  </Heading>
+  <View style={styles.price_ratingContainer}>
+    <View>
+      <Heading size={13} color="secondaryTheme" bold>
+        ${price}
+      </Heading>
+    </View>
+    <Heading color="lightGrayText" size={12}>
+      4.5/5
+    </Heading>
+  </View>
+</View>; */
+}
+
+const ProductCardHorizontal: React.FC<ProductCardHorizontalProps> = ({
+  product,
+}) => {
   const { _id, title, description, category, images, price } = product;
 
   const handlePress = (event: GestureResponderEvent, product: Product) => {
@@ -26,18 +46,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       onPress={(event) => handlePress(event, product)}
     >
       <Image style={styles.thumbnail} source={{ uri: images[0] }} />
-      <Heading size={14} color="primaryTheme" topSpace={10} bottomSpace={10}>
-        {title}
-      </Heading>
-      <View style={styles.price_ratingContainer}>
-        <View>
-          <Heading size={13} color="secondaryTheme" bold>
-            ${price}
+      <View style={{ width: "2%" }} />
+      <View style={{ width: "58%" }}>
+        <Heading
+          style={{ flex: 1, flexWrap: "wrap" }}
+          size={14}
+          color="primaryTheme"
+          topSpace={10}
+          bottomSpace={10}
+        >
+          {title}
+        </Heading>
+        <View style={styles.price_ratingContainer}>
+          <View>
+            <Heading size={13} color="secondaryTheme" bold>
+              ${price}
+            </Heading>
+          </View>
+          <Heading color="lightGrayText" size={12}>
+            4.5/5
           </Heading>
         </View>
-        <Heading color="lightGrayText" size={12}>
-          4.5/5
-        </Heading>
       </View>
     </TouchableOpacity>
   );
@@ -46,6 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "row",
     margin: 10,
     padding: 10,
     borderRadius: 10,
@@ -60,9 +90,8 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   thumbnail: {
-    backgroundColor: "#fff",
-    minHeight: 150,
-    width: "100%",
+    minHeight: 80,
+    width: "40%",
     resizeMode: "center",
   },
   price_ratingContainer: {
@@ -73,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductCard;
+export default ProductCardHorizontal;

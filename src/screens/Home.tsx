@@ -17,6 +17,7 @@ import colors from "../config/colors";
 import { useAuthContext } from "../context/AuthContext";
 import { getCarouselItems, getProducts, getCategories } from "../api/services";
 import { Category, Product } from "../api/types";
+import ProductCardHorizontal from "../components/ProductCardHorizontal";
 
 const Home = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -159,9 +160,13 @@ const Home = () => {
               data={products}
               numColumns={productLayout}
               keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
-                <ProductCard product={item as Product} />
-              )}
+              renderItem={({ item }) =>
+                productLayout == 2 ? (
+                  <ProductCard product={item as Product} />
+                ) : (
+                  <ProductCardHorizontal product={item as Product} />
+                )
+              }
             />
           )}
         </View>
