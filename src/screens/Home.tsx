@@ -11,40 +11,21 @@ import {
 import { Heading } from "../components/basic";
 import SearchInput from "../components/SearchInput";
 import MasonryList from "@react-native-seoul/masonry-list";
-import AppCarousel from "../components/AppCarousel";
 import ProductCard from "../components/ProductCard";
 import colors from "../config/colors";
 import { useAuthContext } from "../context/AuthContext";
-import { getCarouselItems, getProducts, getCategories } from "../api/services";
+import { getProducts, getCategories } from "../api/services";
 import { Category, Product } from "../api/types";
 import ProductCardHorizontal from "../components/ProductCardHorizontal";
 
 const Home = () => {
-  const [loading, setLoading] = useState<boolean>(true);
   const { authToken } = useAuthContext();
-  const [promotionItems, setPromotionItems] = useState<Product[] | null>(null);
   const [products, setProducts] = useState<Product[] | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
 
   const [productLayout, setProductLayout] = useState<1 | 2>(2);
   //get data
   useEffect(() => {
-    setLoading(true);
-    const getCarouselPromoItems = async () => {
-      try {
-        if (!!authToken) {
-          const { data, status } = await getCarouselItems(authToken);
-          if (status === 200 && data !== undefined) {
-            setPromotionItems(data);
-          }
-        }
-      } catch (error) {
-        console.log("error :", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     const getAllProducts = async () => {
       try {
         if (!!authToken) {
@@ -72,7 +53,6 @@ const Home = () => {
       }
     };
 
-    getCarouselPromoItems();
     getAllCategories();
     getAllProducts();
   }, []);
