@@ -97,8 +97,21 @@ const Home = () => {
         stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
       >
-        <AppCarousel loading={loading} data={promotionItems} />
-
+        <View
+          style={{
+            height: 250,
+            backgroundColor: "red",
+            marginTop: 10,
+            marginHorizontal: 10,
+            borderRadius: 15,
+            overflow: "hidden",
+          }}
+        >
+          <Image
+            resizeMode="contain"
+            source={require("../../assets/images/End of Year Promo Banner_resized.png")}
+          />
+        </View>
         {categories ? (
           <ScrollView
             horizontal
@@ -154,7 +167,7 @@ const Home = () => {
             </View>
           </View>
 
-          {products && (
+          {products ? (
             <MasonryList
               scrollEnabled={false}
               data={products}
@@ -168,6 +181,10 @@ const Home = () => {
                 )
               }
             />
+          ) : (
+            <View style={{ marginTop: 10 }}>
+              <ActivityIndicator size={25} color={colors.primaryTheme} />
+            </View>
           )}
         </View>
       </ScrollView>
