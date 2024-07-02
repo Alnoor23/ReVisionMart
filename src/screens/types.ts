@@ -2,10 +2,18 @@ export type RootStackParamList = {
   LoginScreen: undefined;
   SignUpScreen: undefined;
   ForgotPasswordScreen: undefined;
-  // Details: { itemId: number; otherParam: string };
   HomeNavigatorScreen: undefined;
 };
 
-export type RootBotttomTabParamList = {
+export type RootBottomTabParamList = {
   HomeScreen: undefined;
+  CategoriesScreen: undefined;
+  LikedScreen: undefined;
+  CartScreen: undefined;
+  ProfileScreen: undefined;
+};
+
+export type HomeParamList = {
+  HomeScreen: undefined;
+  ProductScreen: { itemId: string };
 };

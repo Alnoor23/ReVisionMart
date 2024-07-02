@@ -4,8 +4,9 @@ import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
 import ForgotPassword from "../screens/ForgotPassword";
 import HomeNavigator from "./MainBottomNavigator";
+import { RootStackParamList } from "../screens/types";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function AuthNavigator() {
   return (

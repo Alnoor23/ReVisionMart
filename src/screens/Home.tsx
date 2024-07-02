@@ -17,8 +17,14 @@ import { useAuthContext } from "../context/AuthContext";
 import { getProducts, getCategories } from "../api/services";
 import { Category, Product } from "../api/types";
 import ProductCardHorizontal from "../components/ProductCardHorizontal";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { HomeParamList } from "./types";
 
-const Home = () => {
+interface HomeScreenProps {
+  navigation: BottomTabNavigationProp<HomeParamList, "HomeScreen">;
+}
+
+const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { authToken } = useAuthContext();
   const [products, setProducts] = useState<Product[] | null>(null);
   const [categories, setCategories] = useState<Category[] | null>(null);
@@ -66,7 +72,7 @@ const Home = () => {
   };
 
   const handleProductCardPress = (product: Product) => {
-    console.log(`pressed ${product.title} for ${product.price}$.`);
+    navigation.navigate("ProductScreen", { itemId: product._id });
   };
 
   return (

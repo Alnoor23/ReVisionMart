@@ -1,15 +1,15 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Categories from "../screens/Categories";
 import Liked from "../screens/Liked";
-import Home from "../screens/Home";
 import Cart from "../screens/Cart";
 import Profile from "../screens/Profile";
 import colors from "../config/colors";
+import HomeNavigator from "./HomeNavigator";
+import { RootBottomTabParamList } from "../screens/types";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 
 function MainBottomNavigator() {
   return (
@@ -53,7 +53,7 @@ function MainBottomNavigator() {
       />
       <Tab.Screen
         name="HomeScreen"
-        component={Home}
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
