@@ -1,50 +1,21 @@
 import React from "react";
-import {
-  View,
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { Heading, Separator } from "./basic";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Heading } from "./basic";
 import { Product } from "../api/types";
 
 interface ProductCardHorizontalProps {
   product: Product;
-}
-
-{
-  /* <View>
-  <Heading size={14} color="primaryTheme" topSpace={10} bottomSpace={10}>
-    {title}
-  </Heading>
-  <View style={styles.price_ratingContainer}>
-    <View>
-      <Heading size={13} color="secondaryTheme" bold>
-        ${price}
-      </Heading>
-    </View>
-    <Heading color="lightGrayText" size={12}>
-      4.5/5
-    </Heading>
-  </View>
-</View>; */
+  onPress: (product: Product) => void;
 }
 
 const ProductCardHorizontal: React.FC<ProductCardHorizontalProps> = ({
   product,
+  onPress,
 }) => {
   const { _id, title, description, category, images, price } = product;
 
-  const handlePress = (event: GestureResponderEvent, product: Product) => {
-    console.log(`pressed ${product.title} for ${product.price}$.`);
-  };
-
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={(event) => handlePress(event, product)}
-    >
+    <TouchableOpacity style={styles.container} onPress={() => onPress(product)}>
       <Image style={styles.thumbnail} source={{ uri: images[0] }} />
       <View style={{ width: "2%" }} />
       <View style={{ width: "58%" }}>

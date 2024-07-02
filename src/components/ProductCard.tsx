@@ -1,30 +1,18 @@
 import React from "react";
-import {
-  View,
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Heading } from "../components/basic";
 import { Product } from "../api/types";
 
 interface ProductCardProps {
   product: Product;
+  onPress: (product: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => {
   const { _id, title, description, category, images, price } = product;
 
-  const handlePress = (event: GestureResponderEvent, product: Product) => {
-    console.log(`pressed ${product.title} for ${product.price}$.`);
-  };
-
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={(event) => handlePress(event, product)}
-    >
+    <TouchableOpacity style={styles.container} onPress={() => onPress(product)}>
       <Image style={styles.thumbnail} source={{ uri: images[0] }} />
       <Heading size={14} color="primaryTheme" topSpace={10} bottomSpace={10}>
         {title}

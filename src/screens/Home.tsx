@@ -65,6 +65,10 @@ const Home = () => {
     console.log(category.name);
   };
 
+  const handleProductCardPress = (product: Product) => {
+    console.log(`pressed ${product.title} for ${product.price}$.`);
+  };
+
   return (
     <>
       <View style={styles.header}>
@@ -154,9 +158,15 @@ const Home = () => {
               keyExtractor={(item) => item._id}
               renderItem={({ item }) =>
                 productLayout == 2 ? (
-                  <ProductCard product={item as Product} />
+                  <ProductCard
+                    product={item as Product}
+                    onPress={() => handleProductCardPress(item as Product)}
+                  />
                 ) : (
-                  <ProductCardHorizontal product={item as Product} />
+                  <ProductCardHorizontal
+                    product={item as Product}
+                    onPress={() => handleProductCardPress(item as Product)}
+                  />
                 )
               }
             />
