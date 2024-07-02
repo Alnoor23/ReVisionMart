@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 function MainBottomNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="HomeNavigator"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -52,7 +52,7 @@ function MainBottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="HomeScreen"
+        name="HomeNavigator"
         component={HomeNavigator}
         options={{
           tabBarIcon: ({ focused, size }) => (
