@@ -1,3 +1,5 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 interface Product {
   _id: string;
   title: string;
@@ -6,10 +8,11 @@ interface Product {
   category: number;
   images: string[];
 }
-
 interface Category {
   _id: string;
   name: string;
+  iconName: keyof typeof MaterialCommunityIcons.glyphMap;
+  iconColor: string;
 }
 
 interface RegisterResponseBody {

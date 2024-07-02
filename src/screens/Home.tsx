@@ -80,7 +80,6 @@ const Home = () => {
         <View
           style={{
             height: 250,
-            backgroundColor: "red",
             marginTop: 10,
             marginHorizontal: 10,
             borderRadius: 15,
