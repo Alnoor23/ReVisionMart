@@ -21,6 +21,8 @@ export interface ButtonProps {
   fontSize?: number;
   bold?: boolean;
   borderRadius?: number;
+  borderWidth?: number;
+  borderColor?: keyof typeof colors;
   loading?: boolean;
   error?: string;
   before?: boolean;
@@ -37,6 +39,8 @@ const Button: React.FC<ButtonProps> = ({
   fontSize = 20,
   bold = false,
   borderRadius = 10,
+  borderWidth = 0,
+  borderColor = "transparent",
   loading = false,
   before = false,
 }) => {
@@ -45,7 +49,13 @@ const Button: React.FC<ButtonProps> = ({
       <TouchableOpacity
         style={[
           styles.button,
-          { backgroundColor: colors[buttonColor], width, borderRadius },
+          {
+            backgroundColor: colors[buttonColor],
+            width,
+            borderRadius,
+            borderWidth,
+            borderColor: colors[borderColor],
+          },
         ]}
         onPress={onPress}
       >

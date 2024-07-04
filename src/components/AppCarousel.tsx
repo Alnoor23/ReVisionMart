@@ -5,22 +5,31 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { scale } from "react-native-size-matters";
 import colors from "../config/colors";
-import { Product } from "../api/types";
 
 const { width } = Dimensions.get("window");
 
 interface AppCarouselProps {
   data: any;
+  autoPlay?: boolean;
+  onPress?: () => void;
   loading: boolean;
+  imageIndex: number;
+  setImageIndex: (index: number) => void;
 }
 
-const AppCarousel: React.FC<AppCarouselProps> = ({ data, loading }) => {
-  const [carouselCurrentIndex, setCarouselCurrentIndex] = useState<number>(0);
-
+const AppCarousel: React.FC<AppCarouselProps> = ({
+  data,
+  onPress,
+  autoPlay = false,
+  loading,
+  imageIndex,
+  setImageIndex,
+}) => {
   return (
     <View style={styles.carouselContainer}>
       {loading ? (
@@ -29,30 +38,31 @@ const AppCarousel: React.FC<AppCarouselProps> = ({ data, loading }) => {
         <>
           <Carousel
             loop
-            autoPlay
+            autoPlay={autoPlay}
             height={width / 1.8}
             width={width}
             data={data}
-            scrollAnimationDuration={2000}
-            onSnapToItem={(index) => setCarouselCurrentIndex(index)}
-            renderItem={({ item }: { item: Product }) => (
-              <View
+            scrollAnimationDuration={100}
+            onSnapToItem={(index) => setImageIndex(index)}
+            renderItem={({ item }: { item: string }) => (
+              <TouchableOpacity
                 style={{
                   flex: 1,
                   justifyContent: "center",
                 }}
+                onPress={onPress}
               >
                 <View style={{ alignItems: "center" }}>
                   <Image
                     source={{
-                      uri: item.images[0],
+                      uri: item,
                     }}
                     height={width / 1.8}
                     width={width}
-                    resizeMode="center"
+                    resizeMode="contain"
                   />
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
           <View style={styles.dotsContainer}>
@@ -63,7 +73,7 @@ const AppCarousel: React.FC<AppCarouselProps> = ({ data, loading }) => {
                   styles.dot,
                   {
                     backgroundColor:
-                      index === carouselCurrentIndex
+                      index === imageIndex
                         ? colors.primaryTheme
                         : colors.lightGray,
                   },
@@ -87,6 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: scale(10),
   },
   dot: {
     width: scale(8),

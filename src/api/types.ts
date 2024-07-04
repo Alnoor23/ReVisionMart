@@ -8,6 +8,16 @@ interface Product {
   category: number;
   images: string[];
 }
+
+interface ProductwithCategory {
+  _id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: Category;
+  images: string[];
+}
+
 interface Category {
   _id: string;
   name: string;
@@ -33,6 +43,7 @@ export {
   Product,
   Category,
   LoginResponseBody,
+  ProductwithCategory,
   RegisterResponseBody,
   CarouselResponseBody,
 };

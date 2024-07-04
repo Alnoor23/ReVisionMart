@@ -81,7 +81,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Heading color="white" align="center" topSpace={5} bottomSpace={5} bold>
           ReVision
         </Heading>
-        <SearchInput placeholder="SmartPhone" />
+        <SearchInput placeholder="SmartPhone" containerColor="primaryTheme" />
       </View>
       <ScrollView
         stickyHeaderIndices={[1]}

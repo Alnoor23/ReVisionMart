@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import colors from "../../config/colors";
-import { scale } from "react-native-size-matters";
 
 interface ScreenProps {
   children: React.ReactNode;

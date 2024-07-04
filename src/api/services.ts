@@ -1,6 +1,11 @@
 import { apiClient, setAuthToken } from "./config";
-import { CarouselResponseBody, Product, Category } from "./types";
-const prefix = "products/";
+import {
+  CarouselResponseBody,
+  Product,
+  Category,
+  ProductwithCategory,
+} from "./types";
+const prefix = "products";
 
 const getCarouselItems = (token: string) => {
   setAuthToken(token);
@@ -9,7 +14,12 @@ const getCarouselItems = (token: string) => {
 
 const getProducts = (token: string) => {
   setAuthToken(token);
-  return apiClient.get<Product[]>(`${prefix}`);
+  return apiClient.get<Product[]>(`${prefix}/`);
+};
+
+const getProductbyId = (productId: string, token: string) => {
+  setAuthToken(token);
+  return apiClient.get<ProductwithCategory>(`${prefix}/${productId}`);
 };
 
 const getProductsByCategory = (token: string, catId: string) => {
@@ -22,4 +32,10 @@ const getCategories = (token: string) => {
   return apiClient.get<Category[]>(`/categories`);
 };
 
-export { getCarouselItems, getProducts, getCategories, getProductsByCategory };
+export {
+  getProducts,
+  getCategories,
+  getProductbyId,
+  getCarouselItems,
+  getProductsByCategory,
+};
