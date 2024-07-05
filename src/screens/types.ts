@@ -7,7 +7,7 @@ export type RootStackParamList = {
 
 export type RootBottomTabParamList = {
   HomeNavigator: undefined;
-  CategoriesScreen: undefined;
+  CategoryNavigator: undefined;
   LikedScreen: undefined;
   CartScreen: undefined;
   ProfileScreen: undefined;

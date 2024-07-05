@@ -1,12 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Categories from "../screens/Categories";
 import Liked from "../screens/Liked";
 import Cart from "../screens/Cart";
 import Profile from "../screens/Profile";
 import colors from "../config/colors";
 import HomeNavigator from "./HomeNavigator";
+import CategoryNavigator from "./CategoryNavigator";
 import { RootBottomTabParamList } from "../screens/types";
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>();
@@ -26,8 +26,8 @@ function MainBottomNavigator() {
       }}
     >
       <Tab.Screen
-        name="CategoriesScreen"
-        component={Categories}
+        name="CategoryNavigator"
+        component={CategoryNavigator}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
