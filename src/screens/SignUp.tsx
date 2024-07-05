@@ -9,7 +9,7 @@ import {
 } from "../components/form";
 import { Heading, Separator, Text } from "../components/basic";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./types";
+import { RootStackParamList } from "../navigation/types";
 import { scale } from "react-native-size-matters";
 import { signUp } from "../api/user";
 import { useAuthContext } from "../context/AuthContext";

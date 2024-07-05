@@ -18,7 +18,7 @@ import { getProducts, getCategories } from "../api/services";
 import { Category, Product } from "../api/types";
 import ProductCardHorizontal from "../components/ProductCardHorizontal";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { HomeParamList } from "./types";
+import { HomeParamList } from "../navigation/types";
 
 interface HomeScreenProps {
   navigation: BottomTabNavigationProp<HomeParamList, "HomeScreen">;

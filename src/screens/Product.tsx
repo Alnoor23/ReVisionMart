@@ -16,7 +16,7 @@ import { RouteProp } from "@react-navigation/native";
 import { useAuthContext } from "../context/AuthContext";
 import { getProductbyId, getProductsByCategory } from "../api/services";
 import { Product as ProductType, ProductwithCategory } from "../api/types";
-import { HomeParamList } from "./types";
+import { HomeParamList } from "../navigation/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import SearchInput from "../components/SearchInput";

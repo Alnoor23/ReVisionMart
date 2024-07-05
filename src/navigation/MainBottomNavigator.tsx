@@ -7,7 +7,7 @@ import Profile from "../screens/Profile";
 import colors from "../config/colors";
 import HomeNavigator from "./HomeNavigator";
 import CategoryNavigator from "./CategoryNavigator";
-import { RootBottomTabParamList } from "../screens/types";
+import { RootBottomTabParamList } from "./types";
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 

@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/stack";
 import Home from "../screens/Home";
 import Product from "../screens/Product";
-import { HomeParamList } from "../screens/types";
+import { HomeParamList } from "./types";
 
 const Stack = createStackNavigator<HomeParamList>();
 

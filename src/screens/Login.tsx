@@ -16,7 +16,7 @@ import Checkbox from "expo-checkbox";
 import * as Yup from "yup";
 import colors from "../config/colors";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./types";
+import { RootStackParamList } from "../navigation/types";
 import { scale } from "react-native-size-matters";
 import { login } from "../api/user";
 import AuthContext from "../context/AuthContext";

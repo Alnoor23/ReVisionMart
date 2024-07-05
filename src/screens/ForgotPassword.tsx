@@ -4,7 +4,7 @@ import { Heading, Text } from "../components/basic";
 import { Form, FormField, SubmitButton } from "../components/form";
 import * as Yup from "yup";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./types";
+import { RootStackParamList } from "../navigation/types";
 import { scale } from "react-native-size-matters";
 
 interface ForgotPasswordScreenProp {
