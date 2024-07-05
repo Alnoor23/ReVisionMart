@@ -14,4 +14,5 @@ export default {
   lightGray: "#ededed",
   transparent: "rgba(0,0,0,0)",
   danger: "#ff5252",
+  green: "#25D366",
 };
