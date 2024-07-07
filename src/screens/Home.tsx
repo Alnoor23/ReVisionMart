@@ -30,6 +30,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [categories, setCategories] = useState<Category[] | null>(null);
 
   const [productLayout, setProductLayout] = useState<1 | 2>(2);
+
   //get data
   useEffect(() => {
     const getAllProducts = async () => {
@@ -68,7 +69,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
     event: GestureResponderEvent,
     category: Category
   ) => {
-    console.log(category.name);
+    navigation.navigate("CategoryScreen", { category });
   };
 
   const handleProductCardPress = (product: Product) => {
@@ -83,6 +84,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
         </Heading>
         <SearchInput placeholder="SmartPhone" containerColor="primaryTheme" />
       </View>
+
       <ScrollView
         stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
@@ -101,6 +103,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
             source={require("../../assets/images/End of Year Promo Banner_resized.png")}
           />
         </View>
+
         {categories ? (
           <ScrollView
             horizontal

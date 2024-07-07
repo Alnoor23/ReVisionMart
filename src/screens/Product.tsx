@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -37,55 +37,57 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
-  const getProduct = async (productId: string) => {
-    if (authToken) {
-      try {
-        const { data, status } = await getProductbyId(productId, authToken);
-        if (status === 200 && data !== undefined) {
-          setProduct(data);
-        } else {
-          console.log("No product found for the given ID", data);
-        }
-      } catch (error) {
-        console.log("error getting the product from the given ID", error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    getProduct(itemId);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if (product) {
-      const getProductsFromCategory = async () => {
-        if (authToken && product?.category) {
-          try {
-            const { data, status } = await getProductsByCategory(
-              authToken,
-              product?.category._id
-            );
-            if (status === 200 && data !== undefined) {
-              setSimilarProducts(
-                data.filter((item) => item._id !== product._id)
-              );
-            } else {
-              console.log(
-                "No similar products found in the same category.",
-                data
-              );
-            }
-          } catch (error) {
-            console.log("error getting similar category products.", error);
+  const getProduct = useCallback(
+    async (productId: string) => {
+      if (authToken) {
+        setLoading(true);
+        try {
+          const { data, status } = await getProductbyId(productId, authToken);
+          if (status === 200 && data) {
+            setProduct(data);
+          } else {
+            console.log("No product found for the given ID", data);
           }
+        } catch (error) {
+          console.log("Error getting the product from the given ID", error);
+        } finally {
+          setLoading(false);
         }
-      };
+      }
+    },
+    [authToken]
+  );
 
+  useEffect(() => {
+    getProduct(itemId);
+  }, [getProduct, itemId]);
+
+  useEffect(() => {
+    const getProductsFromCategory = async () => {
+      if (authToken && product?.category) {
+        try {
+          const { data, status } = await getProductsByCategory(
+            authToken,
+            product.category._id
+          );
+          if (status === 200 && data) {
+            setSimilarProducts(data.filter((item) => item._id !== product._id));
+          } else {
+            console.log(
+              "No similar products found in the same category.",
+              data
+            );
+          }
+        } catch (error) {
+          console.log("Error getting similar category products.", error);
+        }
+      }
+    };
+
+    if (product) {
       getProductsFromCategory();
     }
-  }, [product]);
+  }, [authToken, product]);
 
   const addToCart = () => {
     // TODO: Add product to cart
@@ -98,18 +100,16 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   };
 
   const handleSimilarProductPress = (product: ProductType) => {
-    setLoading(true);
     getProduct(product._id);
-    setLoading(false);
   };
 
   return (
     <>
       <View style={styles.header}>
         <SearchInput
-          placeholder={
-            "More products like " + product?.title.substring(0, 12) + "..."
-          }
+          placeholder={`More products like ${
+            product ? product.title.substring(0, 12) : "this"
+          }...`}
           containerColor="primaryTheme"
         />
       </View>
@@ -118,7 +118,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <AppCarousel
-                data={product?.images}
+                data={product.images}
                 imageIndex={imageIndex}
                 setImageIndex={setImageIndex}
                 onPress={() => setModalVisible(!modalVisible)}
@@ -127,7 +127,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
               <View style={styles.contentContainer}>
                 <View style={styles.heading}>
                   <Heading size={20} topSpace={20} bold>
-                    {product?.title}
+                    {product.title}
                   </Heading>
                   <View style={{ flex: 1 }} />
                   <TouchableOpacity style={{ marginTop: 5 }}>
@@ -140,7 +140,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
                 </View>
                 <View style={styles.heading}>
                   <Heading color="secondaryTheme" size={20} bold>
-                    {product?.price}$
+                    {product.price}$
                   </Heading>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text size={12} color="mediumGrayText">
@@ -172,7 +172,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
                 </View>
                 <View style={styles.content}>
                   <Heading bottomSpace={5}>Description</Heading>
-                  <Text>{product?.description}</Text>
+                  <Text>{product.description}</Text>
                 </View>
               </View>
             </View>
@@ -181,16 +181,17 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
                 Products within the same category
               </Heading>
 
-              {similarProducts ? (
+              {similarProducts.length > 0 ? (
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   data={similarProducts}
+                  keyExtractor={(item) => item._id}
                   renderItem={({ item }) => (
                     <View style={{ width: 200 }}>
                       <ProductCard
                         product={item}
-                        onPress={(item) => handleSimilarProductPress(item)}
+                        onPress={handleSimilarProductPress}
                       />
                     </View>
                   )}
@@ -235,7 +236,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
               enableSwipeDown
               index={imageIndex}
               onSwipeDown={() => setModalVisible(!modalVisible)}
-              imageUrls={product?.images?.map((url: string) => ({
+              imageUrls={product.images.map((url) => ({
                 url,
                 width: 0,
                 height: 0,
@@ -289,7 +290,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-
     elevation: 5,
   },
 });

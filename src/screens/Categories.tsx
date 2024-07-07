@@ -5,8 +5,14 @@ import CategoryCard from "../components/CategoryCard";
 import { Category } from "../api/types";
 import { getCategories } from "../api/services";
 import { useAuthContext } from "../context/AuthContext";
+import { CategoryParamList } from "../navigation/types";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-const Categories = () => {
+interface CategoriesProps {
+  navigation: BottomTabNavigationProp<CategoryParamList, "CategoriesScreen">;
+}
+
+const Categories: React.FC<CategoriesProps> = ({ navigation }) => {
   const { authToken } = useAuthContext();
   const [categories, setCategories] = useState<Category[] | null>(null);
 
@@ -28,6 +34,10 @@ const Categories = () => {
     getAllCategories();
   }, []);
 
+  const handlePress = (category: Category) => {
+    navigation.navigate("CategoryScreen", { category });
+  };
+
   return (
     <View style={styles.container}>
       {categories && (
@@ -42,7 +52,11 @@ const Categories = () => {
           keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <CategoryCard category={item} reverse={index % 2 == 0} />
+            <CategoryCard
+              onPress={() => handlePress(item)}
+              category={item}
+              reverse={index % 2 == 0}
+            />
           )}
         />
       )}
@@ -53,7 +67,7 @@ const Categories = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 20,
+    paddingHorizontal: 20,
   },
 });
 

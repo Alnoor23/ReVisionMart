@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Liked from "../screens/Liked";
@@ -8,13 +8,28 @@ import colors from "../config/colors";
 import HomeNavigator from "./HomeNavigator";
 import CategoryNavigator from "./CategoryNavigator";
 import { RootBottomTabParamList } from "./types";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 
 function MainBottomNavigator() {
+  const navigation = useNavigation<NavigationProp<RootBottomTabParamList>>();
+
+  const loadAllTabs = () => {
+    // navigation.navigate("LikedScreen");
+    // navigation.navigate("CartScreen");
+    // navigation.navigate("ProfileScreen");
+    navigation.navigate("CategoryNavigator");
+    navigation.navigate("HomeNavigator");
+  };
+
+  useEffect(() => {
+    loadAllTabs();
+    console.log("fuct");
+  }, [navigation]);
+
   return (
     <Tab.Navigator
-      initialRouteName="HomeNavigator"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

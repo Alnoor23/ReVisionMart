@@ -7,11 +7,19 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 interface CategoryCardProps {
   category: Category;
   reverse?: boolean;
+  onPress?: () => void;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ category, reverse }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({
+  category,
+  reverse,
+  onPress,
+}) => {
   return (
-    <TouchableOpacity style={[styles.container, reverse && styles.reverse]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.container, reverse && styles.reverse]}
+    >
       <Heading color="mediumGrayText" size={20} bold>
         {category.name}
       </Heading>
@@ -32,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     height: 140,
-    width: "90%",
+    width: "100%",
     paddingHorizontal: 10,
     marginVertical: 10,
     borderRadius: 10,

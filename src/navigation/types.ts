@@ -1,3 +1,5 @@
+import { Category } from "../api/types";
+
 export type RootStackParamList = {
   LoginScreen: undefined;
   SignUpScreen: undefined;
@@ -15,5 +17,12 @@ export type RootBottomTabParamList = {
 
 export type HomeParamList = {
   HomeScreen: undefined;
+  ProductScreen: { itemId: string };
+  CategoryScreen: { category: Category };
+};
+
+export type CategoryParamList = {
+  CategoriesScreen: undefined;
+  CategoryScreen: { category: Category };
   ProductScreen: { itemId: string };
 };
