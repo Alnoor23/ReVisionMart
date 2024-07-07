@@ -5,7 +5,7 @@ import { Heading } from "../components/basic";
 const Liked = () => {
   return (
     <View style={styles.container}>
-      <Heading color="primaryTheme" align="center">
+      <Heading size={18} color="primaryTheme" topSpace={10} align="center">
         Liked Screen
       </Heading>
     </View>
@@ -15,8 +15,6 @@ const Liked = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
   },
 });
 

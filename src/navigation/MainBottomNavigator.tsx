@@ -25,7 +25,6 @@ function MainBottomNavigator() {
 
   useEffect(() => {
     loadAllTabs();
-    console.log("fuct");
   }, [navigation]);
 
   return (
