@@ -10,7 +10,7 @@ export type RootStackParamList = {
 export type RootBottomTabParamList = {
   HomeNavigator: undefined;
   CategoryNavigator: undefined;
-  LikedScreen: undefined;
+  WishListScreen: undefined;
   CartScreen: undefined;
   ProfileScreen: undefined;
 };
@@ -24,5 +24,10 @@ export type HomeParamList = {
 export type CategoryParamList = {
   CategoriesScreen: undefined;
   CategoryScreen: { category: Category };
+  ProductScreen: { itemId: string };
+};
+
+export type WishlistParamList = {
+  WishListScreen: undefined;
   ProductScreen: { itemId: string };
 };

@@ -8,8 +8,14 @@ import { Product, Wishlist } from "../api/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import debounce from "lodash.debounce";
+import { WishlistParamList } from "../navigation/types";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-const Liked = () => {
+interface WishlistProps {
+  navigation: BottomTabNavigationProp<WishlistParamList, "WishListScreen">;
+}
+
+const WishList: React.FC<WishlistProps> = ({ navigation }) => {
   const [userWishlist, setUserWishlist] = useState<Wishlist | null>(null);
   const { authToken } = useAuthContext();
   const [loading, setLoading] = useState(false);
@@ -114,7 +120,11 @@ const Liked = () => {
           renderItem={({ item }) => (
             <ProductCardHorizontal
               product={item.product as Product}
-              onPress={() => console.log("product pressed...")}
+              onPress={() => {
+                navigation.navigate("ProductScreen", {
+                  itemId: item.product._id,
+                });
+              }}
               extraRowComponent={
                 <View
                   style={{
@@ -192,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Liked;
+export default WishList;

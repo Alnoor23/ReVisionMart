@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  RefObject,
+} from "react";
 import {
   StyleSheet,
   View,
@@ -36,6 +42,8 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+
+  const pageRef: RefObject<ScrollView> = useRef(null);
 
   const getProduct = useCallback(
     async (productId: string) => {
@@ -101,6 +109,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
 
   const handleSimilarProductPress = (product: ProductType) => {
     getProduct(product._id);
+    pageRef.current?.scrollTo({ y: 0, animated: true });
   };
 
   return (
@@ -115,7 +124,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       </View>
       {product ? (
         <>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} ref={pageRef}>
             <View style={styles.container}>
               <AppCarousel
                 data={product.images}

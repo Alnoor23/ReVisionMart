@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Liked from "../screens/Liked";
+import WishList from "../screens/WishList";
 import Cart from "../screens/Cart";
 import Profile from "../screens/Profile";
 import colors from "../config/colors";
@@ -53,8 +53,8 @@ function MainBottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="LikedScreen"
-        component={Liked}
+        name="WishListScreen"
+        component={WishList}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons
