@@ -33,7 +33,7 @@ const Category: React.FC<CategoryProps> = ({ route, navigation }) => {
 
   useEffect(() => {
     const getProducts = async () => {
-      if (!authToken) return;
+      if (!authToken) return console.log("No auth token");
 
       try {
         const { status, data } = await getProductsByCategory(

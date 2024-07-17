@@ -4,7 +4,11 @@ import {
   Product,
   Category,
   ProductwithCategory,
+  Wishlist,
+  WishlistProductDetails,
+  AddWishlistPayload,
 } from "./types";
+
 const prefix = "products";
 
 const getCarouselItems = (token: string) => {
@@ -32,9 +36,23 @@ const getCategories = (token: string) => {
   return apiClient.get<Category[]>(`/categories`);
 };
 
+const getWishlist = (authToken: string) => {
+  setAuthToken(authToken);
+
+  return apiClient.get<Wishlist>(`/wishlist`);
+};
+
+const updateWishlist = (authToken: string, wishlist: AddWishlistPayload) => {
+  setAuthToken(authToken);
+
+  return apiClient.post<Wishlist>(`/wishlist`, wishlist);
+};
+
 export {
   getProducts,
+  getWishlist,
   getCategories,
+  updateWishlist,
   getProductbyId,
   getCarouselItems,
   getProductsByCategory,

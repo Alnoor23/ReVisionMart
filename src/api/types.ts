@@ -7,6 +7,32 @@ interface Product {
   description: string;
   category: number;
   images: string[];
+  bannerPromo: boolean;
+}
+
+interface WishlistProduct {
+  _id: string;
+  product: Product;
+  quantity: number;
+}
+
+interface AddWishlistPayload {
+  userId: string;
+  products: { product: string; quantity: number }[];
+}
+
+interface WishlistProductDetails {
+  // TODO: CHECK IF THIS IS USED
+  _id: string;
+  product: Product;
+  quantity: number;
+}
+
+interface Wishlist {
+  _id: string;
+  userId: string;
+  products: WishlistProduct[];
+  createdAt: string;
 }
 
 interface ProductwithCategory {
@@ -42,8 +68,12 @@ type CarouselResponseBody = Product[];
 export {
   Product,
   Category,
+  Wishlist,
+  WishlistProduct,
   LoginResponseBody,
+  AddWishlistPayload,
   ProductwithCategory,
   RegisterResponseBody,
   CarouselResponseBody,
+  WishlistProductDetails,
 };

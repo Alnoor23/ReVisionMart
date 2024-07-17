@@ -6,11 +6,13 @@ import { Product } from "../api/types";
 interface ProductCardHorizontalProps {
   product: Product;
   onPress: (product: Product) => void;
+  extraRowComponent?: React.ReactNode;
 }
 
 const ProductCardHorizontal: React.FC<ProductCardHorizontalProps> = ({
   product,
   onPress,
+  extraRowComponent,
 }) => {
   const { _id, title, description, category, images, price } = product;
 
@@ -38,6 +40,7 @@ const ProductCardHorizontal: React.FC<ProductCardHorizontalProps> = ({
             4.5/5
           </Heading>
         </View>
+        {extraRowComponent}
       </View>
     </TouchableOpacity>
   );
