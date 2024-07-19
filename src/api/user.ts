@@ -1,6 +1,6 @@
 import { FormikValues } from "formik";
-import { apiClient } from "./config";
-import { LoginResponseBody, RegisterResponseBody } from "./types";
+import { apiClient, setAuthToken } from "./config";
+import { LoginResponseBody, RegisterResponseBody, User } from "./types";
 
 const prefix = "user/";
 
@@ -10,4 +10,8 @@ const signUp = (data: FormikValues) =>
 const login = (data: FormikValues) =>
   apiClient.post<LoginResponseBody>(`${prefix}login/`, data);
 
-export { login, signUp };
+const getUser = (authToken: string) => {
+  setAuthToken(authToken);
+  return apiClient.get<User>(`${prefix}`);
+};
+export { login, signUp, getUser };

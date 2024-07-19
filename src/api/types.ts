@@ -1,5 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+}
+
 interface Product {
   _id: string;
   title: string;
@@ -19,13 +25,6 @@ interface WishlistProduct {
 interface AddWishlistPayload {
   userId: string;
   products: { product: string; quantity: number }[];
-}
-
-interface WishlistProductDetails {
-  // TODO: CHECK IF THIS IS USED
-  _id: string;
-  product: Product;
-  quantity: number;
 }
 
 interface Wishlist {
@@ -66,6 +65,7 @@ interface LoginResponseBody {
 type CarouselResponseBody = Product[];
 
 export {
+  User,
   Product,
   Category,
   Wishlist,
@@ -75,5 +75,4 @@ export {
   ProductwithCategory,
   RegisterResponseBody,
   CarouselResponseBody,
-  WishlistProductDetails,
 };

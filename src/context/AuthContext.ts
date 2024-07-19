@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { Wishlist } from "../api/types";
 
 export interface User {
-  _id: string;
-  name: string;
-  email: string;
+  _id?: string;
+  name?: string;
+  email?: string;
+  wishlist?: Wishlist;
 }
 
 interface AuthContextProps {

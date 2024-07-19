@@ -5,7 +5,6 @@ import {
   Category,
   ProductwithCategory,
   Wishlist,
-  WishlistProductDetails,
   AddWishlistPayload,
 } from "./types";
 

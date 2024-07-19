@@ -7,6 +7,8 @@ import MainBottomNavigator from "./src/navigation/MainBottomNavigator";
 import AuthNavigator from "./src/navigation/AuthNavigator";
 import AuthContext, { User } from "./src/context/AuthContext";
 import { getAuthToken } from "./src/storage/authStorage";
+import { getWishlist } from "./src/api/services";
+import { getUser } from "./src/api/user";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,8 +18,26 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authToken, setAuthToken] = useState<string | null>("");
 
+  // populating the user on app load
   useEffect(() => {
-    console.log(`authToken changed :${authToken}`);
+    if (!authToken) return;
+    const getUserData = async () => {
+      const { data, status } = await getUser(authToken);
+
+      if (data && status === 200) {
+        setUser(data);
+      }
+    };
+    const getUserWishlist = async () => {
+      const { data, status } = await getWishlist(authToken);
+
+      if (data && status === 200) {
+        setUser({ ...user, wishlist: data });
+      }
+    };
+
+    getUserData();
+    getUserWishlist();
   }, [authToken]);
 
   // load stuff
