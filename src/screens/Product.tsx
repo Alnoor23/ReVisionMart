@@ -50,7 +50,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       if (authToken) {
         setLoading(true);
         try {
-          const { data, status } = await getProductbyId(productId, authToken);
+          const { data, status } = await getProductbyId(productId);
           if (status === 200 && data) {
             setProduct(data);
           } else {
@@ -75,7 +75,6 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       if (authToken && product?.category) {
         try {
           const { data, status } = await getProductsByCategory(
-            authToken,
             product.category._id
           );
           if (status === 200 && data) {

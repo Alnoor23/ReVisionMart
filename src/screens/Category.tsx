@@ -36,10 +36,7 @@ const Category: React.FC<CategoryProps> = ({ route, navigation }) => {
       if (!authToken) return console.log("No auth token");
 
       try {
-        const { status, data } = await getProductsByCategory(
-          authToken,
-          categoryId
-        );
+        const { status, data } = await getProductsByCategory(categoryId);
 
         if (status === 200 && data) {
           setProducts(data);

@@ -33,10 +33,7 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
       };
 
       try {
-        const { data, status } = await updateWishlist(
-          authToken,
-          formattedWishlist
-        );
+        const { data, status } = await updateWishlist(formattedWishlist);
         if (!data && status !== 200) {
           console.log(`Error updating wishlist ${status}:`, data);
         }
@@ -91,7 +88,7 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
     if (!authToken) return console.log("No auth token provided.");
 
     try {
-      const { data, status } = await getWishlist(authToken);
+      const { data, status } = await getWishlist();
       if (status === 200 && data !== undefined) {
         setUserWishlist(data);
       }

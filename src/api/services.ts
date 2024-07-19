@@ -10,42 +10,20 @@ import {
 
 const prefix = "products";
 
-const getCarouselItems = (token: string) => {
-  setAuthToken(token);
-  return apiClient.get<CarouselResponseBody>(`${prefix}/promobanner`);
-};
+const getProducts = () => apiClient.get<Product[]>(`${prefix}/`);
 
-const getProducts = (token: string) => {
-  setAuthToken(token);
-  return apiClient.get<Product[]>(`${prefix}/`);
-};
+const getProductbyId = (productId: string) =>
+  apiClient.get<ProductwithCategory>(`${prefix}/${productId}`);
 
-const getProductbyId = (productId: string, token: string) => {
-  setAuthToken(token);
-  return apiClient.get<ProductwithCategory>(`${prefix}/${productId}`);
-};
+const getProductsByCategory = (catId: string) =>
+  apiClient.get<Product[]>(`${prefix}/category/${catId}`);
 
-const getProductsByCategory = (token: string, catId: string) => {
-  setAuthToken(token);
-  return apiClient.get<Product[]>(`${prefix}/category/${catId}`);
-};
+const getCategories = () => apiClient.get<Category[]>(`/categories`);
 
-const getCategories = (token: string) => {
-  setAuthToken(token);
-  return apiClient.get<Category[]>(`/categories`);
-};
+const getWishlist = () => apiClient.get<Wishlist>(`/wishlist`);
 
-const getWishlist = (authToken: string) => {
-  setAuthToken(authToken);
-
-  return apiClient.get<Wishlist>(`/wishlist`);
-};
-
-const updateWishlist = (authToken: string, wishlist: AddWishlistPayload) => {
-  setAuthToken(authToken);
-
-  return apiClient.post<Wishlist>(`/wishlist`, wishlist);
-};
+const updateWishlist = (wishlist: AddWishlistPayload) =>
+  apiClient.post<Wishlist>(`/wishlist`, wishlist);
 
 export {
   getProducts,
@@ -53,6 +31,5 @@ export {
   getCategories,
   updateWishlist,
   getProductbyId,
-  getCarouselItems,
   getProductsByCategory,
 };

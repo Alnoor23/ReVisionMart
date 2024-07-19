@@ -21,7 +21,7 @@ const Categories: React.FC<CategoriesProps> = ({ navigation }) => {
     const getAllCategories = async () => {
       try {
         if (!!authToken) {
-          const { data, status } = await getCategories(authToken);
+          const { data, status } = await getCategories();
           if (status === 200 && data !== undefined) {
             setCategories(data);
           }

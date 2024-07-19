@@ -10,8 +10,6 @@ const signUp = (data: FormikValues) =>
 const login = (data: FormikValues) =>
   apiClient.post<LoginResponseBody>(`${prefix}login/`, data);
 
-const getUser = (authToken: string) => {
-  setAuthToken(authToken);
-  return apiClient.get<User>(`${prefix}`);
-};
+const getUser = () => apiClient.get<User>(`${prefix}`);
+
 export { login, signUp, getUser };

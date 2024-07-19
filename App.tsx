@@ -9,6 +9,7 @@ import AuthContext, { User } from "./src/context/AuthContext";
 import { getAuthToken } from "./src/storage/authStorage";
 import { getWishlist } from "./src/api/services";
 import { getUser } from "./src/api/user";
+import { setAuthToken as setApiAuthToken } from "./src/api/config";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,15 +22,18 @@ export default function App() {
   // populating the user on app load
   useEffect(() => {
     if (!authToken) return;
+
+    setApiAuthToken(authToken);
+
     const getUserData = async () => {
-      const { data, status } = await getUser(authToken);
+      const { data, status } = await getUser();
 
       if (data && status === 200) {
         setUser(data);
       }
     };
     const getUserWishlist = async () => {
-      const { data, status } = await getWishlist(authToken);
+      const { data, status } = await getWishlist();
 
       if (data && status === 200) {
         setUser({ ...user, wishlist: data });

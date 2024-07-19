@@ -36,7 +36,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
     const getAllProducts = async () => {
       try {
         if (!!authToken) {
-          const { data, status } = await getProducts(authToken);
+          const { data, status } = await getProducts();
           if (status === 200 && data !== undefined) {
             setProducts(data);
           }
@@ -49,7 +49,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
     const getAllCategories = async () => {
       try {
         if (!!authToken) {
-          const { data, status } = await getCategories(authToken);
+          const { data, status } = await getCategories();
 
           if (status === 200 && data !== undefined) {
             setCategories(data);
