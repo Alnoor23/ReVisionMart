@@ -136,15 +136,12 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       if (!product) return console.log("Product not found");
       console.log(productLiked);
       if (productLiked) {
-        // remove the product from the wishlist
-
         const { data, status } = await removeProductToWishlist(product._id);
         if (status === 200 && data) {
           setUserWishlist(data);
           return setProductLiked(false);
         }
       } else {
-        // add the product to the wishlist
         const { data, status } = await addProductToWishlist(product._id);
         if (status === 200 && data) {
           setUserWishlist(data);
@@ -154,6 +151,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
     }, 150),
     [product, productLiked]
   );
+
   return (
     <>
       <View style={styles.header}>
