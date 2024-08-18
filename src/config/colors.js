@@ -1,0 +1,18 @@
+export default {
+  primaryTheme: "#3F51B5",
+  // secondaryTheme: "#F9C80E",
+  secondaryTheme: "#ffa600",
+  background: "#F5F5F5",
+  black: "#000",
+  white: "#fff",
+  dark: "#0c0c0c",
+  primaryText: "#333333",
+  lightGrayText: "#cfcfcf",
+  mediumGrayText: "#6e6969",
+  iconGray: "#a7a9b0",
+  mediumGray: "#6e6969",
+  lightGray: "#ededed",
+  transparent: "rgba(0,0,0,0)",
+  danger: "#ff5252",
+  green: "#25D366",
+};
