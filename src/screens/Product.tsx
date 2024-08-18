@@ -134,7 +134,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   const handleToggleProductLike = useCallback(
     debounce(async () => {
       if (!product) return console.log("Product not found");
-      console.log(productLiked);
+
       if (productLiked) {
         const { data, status } = await removeProductToWishlist(product._id);
         if (status === 200 && data) {

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Heading } from "../components/basic";
 import { useAuthContext } from "../context/AuthContext";
-import { getPopulatedWishlist } from "../api/services";
+import { getPopulatedWishlist, removeProductToWishlist } from "../api/services";
 import ProductCardHorizontal from "../components/ProductCardHorizontal";
 import { Product, WishlistWithProduct } from "../api/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -25,27 +25,25 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
   const [wishlist, setWishlist] = useState<WishlistWithProduct | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleRemoveFromWishlist = (productId: string) => {
+  const handleRemoveFromWishlist = async (productId: string) => {
     if (!authToken) return console.log("No auth token provided.");
-    if (!userWishlist || !userWishlist.products)
-      return console.log("No wishlist available.");
 
-    let updatedUserProducts = userWishlist?.products.filter(
-      (p) => p !== productId
-    );
-
-    if (userWishlist) {
-      setUserWishlist({ ...userWishlist, products: updatedUserProducts });
+    const { data, status } = await removeProductToWishlist(productId);
+    if (status === 200 && data) {
+      console.log(data);
+      setUserWishlist(data);
+      getWishlistProducts();
+    } else {
+      console.log(`Error removing product from wishlist ${status}:`, data);
     }
   };
 
-  const handleAddToCart = (productId: string) => {
-    console.log("add to cart", productId);
-  };
+  const handleAddToCart = (productId: string) => {};
 
   const getWishlistProducts = async () => {
     setLoading(true);
     if (!authToken) return console.log("No auth token provided.");
+    console.log("Getting products");
 
     try {
       const { data, status } = await getPopulatedWishlist();
@@ -70,6 +68,13 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
       </Heading>
       {wishlist ? (
         <FlatList
+          ListEmptyComponent={
+            <View style={{ flex: 1, justifyContent: "center" }}>
+              <Heading align="center" color="lightGrayText" topSpace={50}>
+                Oh Noo, Such empty
+              </Heading>
+            </View>
+          }
           onRefresh={() => getWishlistProducts()}
           refreshing={loading}
           data={wishlist.products}
@@ -125,13 +130,7 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
             />
           )}
         />
-      ) : (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Heading align="center" color="lightGrayText">
-            Oh Noo, Such empty
-          </Heading>
-        </View>
-      )}
+      ) : null}
     </View>
   );
 };
