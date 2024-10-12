@@ -21,10 +21,11 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { useAuthContext } from "../context/AuthContext";
 import {
+  addProductToCart,
   addProductToWishlist,
   getProductbyId,
   getProductsByCategory,
-  removeProductToWishlist,
+  removeProductFromWishlist,
 } from "../api/services";
 import { Product as ProductType, ProductwithCategory } from "../api/types";
 import { HomeParamList } from "../navigation/types";
@@ -116,9 +117,22 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
     setProductLiked(!!liked);
   }, [product]);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     // TODO: Add product to cart
-    console.log("Add to cart button clicked");
+    const productId = product?._id;
+    if (!productId) return console.log("Product not found"); // TODO: Toast
+    const { data, status } = await addProductToCart(productId);
+
+    try {
+      if (status === 200 && data) {
+        console.log("Product added to cart", data);
+        // TODO: add toast
+      } else {
+        console.log("Error adding product to cart :", data);
+      }
+    } catch (error) {
+      console.log("Error adding product to cart", error);
+    }
   };
 
   const buyNow = () => {
@@ -136,7 +150,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       if (!product) return console.log("Product not found");
 
       if (productLiked) {
-        const { data, status } = await removeProductToWishlist(product._id);
+        const { data, status } = await removeProductFromWishlist(product._id);
         if (status === 200 && data) {
           setUserWishlist(data);
           return setProductLiked(false);

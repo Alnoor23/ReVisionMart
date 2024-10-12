@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { Heading } from "../components/basic";
 import { useAuthContext } from "../context/AuthContext";
-import { getPopulatedWishlist, removeProductToWishlist } from "../api/services";
+import {
+  addProductToCart,
+  getPopulatedWishlist,
+  removeProductFromWishlist,
+} from "../api/services";
 import ProductCardHorizontal from "../components/ProductCardHorizontal";
 import { Product, WishlistWithProduct } from "../api/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -21,14 +25,14 @@ interface WishlistProps {
 }
 
 const WishList: React.FC<WishlistProps> = ({ navigation }) => {
-  const { userWishlist, setUserWishlist, authToken } = useAuthContext();
+  const { setUserWishlist, authToken } = useAuthContext();
   const [wishlist, setWishlist] = useState<WishlistWithProduct | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleRemoveFromWishlist = async (productId: string) => {
     if (!authToken) return console.log("No auth token provided.");
 
-    const { data, status } = await removeProductToWishlist(productId);
+    const { data, status } = await removeProductFromWishlist(productId);
     if (status === 200 && data) {
       console.log(data);
       setUserWishlist(data);
@@ -38,7 +42,20 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
     }
   };
 
-  const handleAddToCart = (productId: string) => {};
+  const handleAddToCart = async (productId: string) => {
+    const { data, status } = await addProductToCart(productId);
+
+    try {
+      if (status === 200 && data) {
+        console.log("Product added to cart", data);
+        // TODO: add toast
+      } else {
+        console.log("Error adding product to cart :", data);
+      }
+    } catch (error) {
+      console.log("Error adding product to cart", error);
+    }
+  };
 
   const getWishlistProducts = async () => {
     setLoading(true);
@@ -63,7 +80,7 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Heading size={18} color="primaryTheme" topSpace={10} align="center">
+      <Heading size={18} bold color="primaryTheme" topSpace={10} align="center">
         Wishlist
       </Heading>
       {wishlist ? (

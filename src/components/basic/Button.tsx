@@ -11,7 +11,7 @@ import { scale } from "react-native-size-matters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export interface ButtonProps {
-  title: string;
+  title?: string;
   onPress?: () => void;
   buttonColor?: keyof typeof colors;
   textColor?: keyof typeof colors;

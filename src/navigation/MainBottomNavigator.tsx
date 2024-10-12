@@ -7,6 +7,8 @@ import Profile from "../screens/Profile";
 import colors from "../config/colors";
 import HomeNavigator from "./HomeNavigator";
 import CategoryNavigator from "./CategoryNavigator";
+import Orders from "../screens/Orders";
+import UserDetails from "../screens/UserDetails";
 import { RootBottomTabParamList } from "./types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
@@ -29,7 +31,12 @@ function MainBottomNavigator() {
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
+        tabBarButton: ["OrdersScreen", "UserDetailScreen"].includes(route.name)
+          ? () => {
+              return null;
+            }
+          : undefined,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -37,7 +44,7 @@ function MainBottomNavigator() {
           height: 60,
         },
         tabBarHideOnKeyboard: true,
-      }}
+      })}
     >
       <Tab.Screen
         name="CategoryNavigator"
@@ -102,6 +109,20 @@ function MainBottomNavigator() {
               color={focused ? colors.primaryTheme : colors.iconGray}
             />
           ),
+        }}
+      />
+      <Tab.Screen
+        name="OrdersScreen"
+        component={Orders}
+        options={{
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tab.Screen
+        name="UserDetailScreen"
+        component={UserDetails}
+        options={{
+          tabBarShowLabel: false,
         }}
       />
     </Tab.Navigator>

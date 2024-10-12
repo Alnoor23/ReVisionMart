@@ -63,17 +63,36 @@ interface LoginResponseBody {
   message?: string | null;
 }
 
-type CarouselResponseBody = Product[];
+interface CartProduct {
+  _id: string;
+  product: string;
+  quantity: number;
+}
+
+interface Cart {
+  _id: string;
+  userId: string;
+  products: CartProduct[];
+  createdAt: Date;
+}
+
+interface CartWithProduct {
+  _id: string;
+  userId: string;
+  products: { _id: string; product: Product; quantity: number }[];
+  createdAt: string;
+}
 
 export {
   User,
+  Cart,
   Product,
   Category,
   Wishlist,
+  CartWithProduct,
   LoginResponseBody,
   AddWishlistPayload,
   WishlistWithProduct,
   ProductwithCategory,
   RegisterResponseBody,
-  CarouselResponseBody,
 };
