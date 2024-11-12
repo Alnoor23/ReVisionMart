@@ -11,6 +11,7 @@ import Orders from "../screens/Orders";
 import UserDetails from "../screens/UserDetails";
 import { RootBottomTabParamList } from "./types";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import CartNavigator from "./CartNavigator";
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 
@@ -86,8 +87,8 @@ function MainBottomNavigator() {
         }}
       />
       <Tab.Screen
-        name="CartScreen"
-        component={Cart}
+        name="CartNavigator"
+        component={CartNavigator}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MaterialCommunityIcons

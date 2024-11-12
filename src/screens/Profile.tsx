@@ -13,16 +13,28 @@ interface ProfileProps {
 }
 
 interface menuItems {
+  id: number;
   name: string;
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
   navigate: keyof RootBottomTabParamList;
 }
 
 const menuItems: menuItems[] = [
-  { name: "Profile", icon: "account-outline", navigate: "UserDetailScreen" },
-  { name: "Your Orders", icon: "shopping-outline", navigate: "OrdersScreen" },
-  { name: "Your Cart", icon: "cart-outline", navigate: "CartScreen" },
   {
+    id: 1,
+    name: "Profile",
+    icon: "account-outline",
+    navigate: "UserDetailScreen",
+  },
+  {
+    id: 2,
+    name: "Your Orders",
+    icon: "shopping-outline",
+    navigate: "OrdersScreen",
+  },
+  { id: 3, name: "Your Cart", icon: "cart-outline", navigate: "CartScreen" },
+  {
+    id: 4,
     name: "Your Wishlist",
     icon: "cards-heart-outline",
     navigate: "WishListScreen",
@@ -37,22 +49,29 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View
+        {/* <View
           style={{
             height: 100,
             width: 100,
             backgroundColor: "lightgray",
             borderRadius: 100,
           }}
-        />
+        /> */}
         <Heading color="primaryTheme" align="center">
+          Welcome,{"             "}
+        </Heading>
+        <Heading size={26} bold color="primaryTheme" align="center">
+          {"        "}
           {user?.name}
         </Heading>
       </View>
-      <Separator height={40} />
+      <Separator height={60} />
 
       {menuItems.map((item) => (
-        <TouchableOpacity onPress={() => navigation.navigate(item.navigate)}>
+        <TouchableOpacity
+          key={item.id}
+          onPress={() => navigation.navigate(item.navigate)}
+        >
           <View style={styles.menuItem}>
             <MaterialCommunityIcons
               size={20}
@@ -65,7 +84,7 @@ const Profile: React.FC<ProfileProps> = ({ navigation }) => {
           <View style={styles.bar} />
         </TouchableOpacity>
       ))}
-      <Separator height={40} />
+      <Separator height={80} />
       <Button
         title="LOGOUT"
         onPress={() => {
@@ -86,6 +105,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
+    marginBottom: 40,
   },
   menuItem: {
     flexDirection: "row",

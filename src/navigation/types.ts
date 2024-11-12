@@ -11,7 +11,7 @@ export type RootBottomTabParamList = {
   HomeNavigator: undefined;
   CategoryNavigator: undefined;
   WishListScreen: undefined;
-  CartScreen: undefined;
+  CartNavigator: undefined;
   ProfileScreen: undefined;
   OrdersScreen: undefined;
   UserDetailScreen: undefined;
@@ -38,4 +38,6 @@ export type WishlistParamList = {
 export type CartParamList = {
   CartScreen: undefined;
   ProductScreen: { itemId: string };
+  OrdersScreen: undefined;
+  BuyScreen: undefined;
 };

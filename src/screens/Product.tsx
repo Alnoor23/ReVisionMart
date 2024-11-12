@@ -118,7 +118,6 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   }, [product]);
 
   const addToCart = async () => {
-    // TODO: Add product to cart
     const productId = product?._id;
     if (!productId) return console.log("Product not found"); // TODO: Toast
     const { data, status } = await addProductToCart(productId);

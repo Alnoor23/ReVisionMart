@@ -55,6 +55,12 @@ const addProductToCart = (productId: string) =>
 const removeProductFromCart = (productId: string) =>
   apiClient.put<CartWithProduct>(`/cart/removeproduct`, { product: productId });
 
+const updateCartProduct = (productId: string, quantity: number) =>
+  apiClient.put<CartWithProduct>(`/cart/updateproduct`, {
+    product: productId,
+    quantity,
+  });
+
 export {
   search,
   getCart,
@@ -67,6 +73,7 @@ export {
   getProductbyId,
   getPopulatedCart,
   addProductToCart,
+  updateCartProduct,
   getPopulatedWishlist,
   addProductToWishlist,
   getProductsByCategory,
