@@ -9,6 +9,9 @@ import {
   Cart,
   CartWithProduct,
   User,
+  Orders,
+  Order,
+  CartProduct,
 } from "./types";
 
 const prefix = "products";
@@ -44,7 +47,7 @@ const removeProductFromWishlist = (productId: string) =>
 
 const getCart = () => apiClient.get<Cart>(`/cart`);
 
-const clearCart = () => apiClient.delete<Cart>(`/clearcart`);
+const clearCart = () => apiClient.delete<Cart>(`/cart/clearcart`);
 
 const getPopulatedCart = () =>
   apiClient.get<CartWithProduct>(`/cart/populated`);
@@ -61,10 +64,17 @@ const updateCartProduct = (productId: string, quantity: number) =>
     quantity,
   });
 
+const getOrders = () => apiClient.get<Orders>(`/order`);
+
+const putOrder = (cartId: string, total: number, address: string) =>
+  apiClient.post<Order>(`/order`, { cartId, total, address });
+
 export {
   search,
   getCart,
   getUser,
+  putOrder,
+  getOrders,
   clearCart,
   getProducts,
   getWishlist,

@@ -3,7 +3,9 @@ import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Heading, Text } from "../components/basic";
 import { CartWithProduct, Product } from "../api/types";
 import {
+  clearCart,
   getPopulatedCart,
+  putOrder,
   removeProductFromCart,
   updateCartProduct,
 } from "../api/services";
@@ -14,7 +16,12 @@ import colors from "../config/colors";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { CartParamList } from "../navigation/types";
 import Modal from "react-native-modal";
-import { Form, FormField, SubmitButton } from "../components/form";
+import {
+  ErrorMessage,
+  Form,
+  FormField,
+  SubmitButton,
+} from "../components/form";
 import { LiteCreditCardInput } from "react-native-credit-card-input";
 import * as Yup from "yup";
 
@@ -23,8 +30,13 @@ interface CartProps {
 }
 
 const validationSchema = Yup.object().shape({
-  address: Yup.string().required("Address is required"),
-  number: Yup.number().required("Phone Number is required"),
+  address: Yup.string().min(10).max(255).required("Address is required"),
+  number: Yup.number()
+    .typeError("Phone Number must be a number")
+    .required("Phone Number is required")
+    .test("len", "Please enter a valid phone number", (val) =>
+      val ? val.toString().length >= 9 : false
+    ),
 });
 
 const Cart: React.FC<CartProps> = ({ navigation }) => {
@@ -34,6 +46,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [cardValid, setCardValid] = useState(false);
+  const [error, setError] = useState("");
 
   const getUserCart = async () => {
     setLoading(true);
@@ -74,6 +87,30 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
 
     return totalAmount;
   }
+
+  const placeOrder = async (address: string) => {
+    if (cart && cart.products) {
+      const { data, status } = await putOrder(
+        cart._id,
+        calculateTotalAmount(cart),
+        address
+      );
+
+      if (data && status === 200) {
+        const { status, data: cart } = await clearCart();
+        if (status === 200 && cart?.products.length === 0) {
+          setCart(null);
+          setError("");
+          getUserCart();
+        }
+        navigation.navigate("BuyScreen", { order: data });
+      } else {
+        console.error(data);
+      }
+    } else {
+      console.error("Cart is empty or not properly initialized");
+    }
+  };
 
   useEffect(() => {
     getUserCart();
@@ -227,7 +264,12 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
             title="Buy Now"
             bold
             width={"84%"}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => {
+              if (parseInt(totalPrice.toPrecision(1)) !== 0) {
+                setModalVisible(!modalVisible);
+              }
+            }}
+            // onPress={() => navigation.navigate("BuyScreen")}
           />
           <TouchableOpacity style={styles.deleteButton}>
             <MaterialCommunityIcons
@@ -252,28 +294,42 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
             </Heading>
             <Form
               validationSchema={validationSchema}
-              initialValues={{ address: "", number: "" }}
+              initialValues={{
+                address: "",
+                number: "",
+              }}
               onSubmit={(values) => {
                 if (cardValid) {
-                  console.log("Submitting order", values);
+                  placeOrder(values.address);
                   setModalVisible(!modalVisible);
-                  return navigation.navigate("BuyScreen");
+
+                  // return navigation.navigate("BuyScreen");
                 } else {
                   console.log("Error submitting order", values, cardValid);
+                  setError("Please Check your Card Details");
                 }
               }}
             >
-              {/* got bored so no filtering inputfields */}
               <FormField name="address" placeholder="Enter your Address" />
-              <FormField name="number" placeholder="Enter your Phone Number" />
+
+              {/* got bored so no filtering inputfields */}
+              <FormField
+                name="number"
+                placeholder="Enter your Phone Number"
+                keyboardType="number-pad"
+              />
               <LiteCreditCardInput
                 onChange={(field) => setCardValid(field.valid)}
               />
 
+              <ErrorMessage error={error} visible={!!error} />
+
               <SubmitButton title="Place Order" bold />
+
               <Text align="center" size={10} color="mediumGrayText">
                 We will send you a confirmation email and SMS.
               </Text>
+
               <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                 <Heading
                   color="mediumGrayText"
@@ -295,7 +351,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    minHeight: "100%",
     alignContent: "center",
   },
   bottomButtonBar: {

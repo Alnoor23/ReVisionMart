@@ -64,7 +64,7 @@ interface LoginResponseBody {
 }
 
 interface CartProduct {
-  _id: string;
+  _id?: string;
   product: string;
   quantity: number;
 }
@@ -83,13 +83,45 @@ interface CartWithProduct {
   createdAt: string;
 }
 
+interface OrderProduct {
+  product: Product;
+  quantity: number;
+  _id: string;
+}
+
+interface Order {
+  _id: string;
+  userId: string;
+  orderId: string;
+  products: OrderProduct[];
+  total: number;
+  address: string;
+  createdAt: Date;
+}
+
+interface OrderWithProduct {
+  _id: string;
+  userId: string;
+  orderId: string;
+  products: { _id: string; product: Product; quantity: number }[];
+  total: number;
+  address: string;
+  createdAt: Date;
+}
+
+type Orders = Order[];
+
 export {
   User,
   Cart,
+  Order,
+  Orders,
   Product,
   Category,
   Wishlist,
+  CartProduct,
   CartWithProduct,
+  OrderWithProduct,
   LoginResponseBody,
   AddWishlistPayload,
   WishlistWithProduct,

@@ -1,4 +1,4 @@
-import { Category } from "../api/types";
+import { Category, OrderWithProduct } from "../api/types";
 
 export type RootStackParamList = {
   LoginScreen: undefined;
@@ -36,8 +36,16 @@ export type WishlistParamList = {
 };
 
 export type CartParamList = {
+  HomeNavigator: undefined;
   CartScreen: undefined;
   ProductScreen: { itemId: string };
   OrdersScreen: undefined;
-  BuyScreen: undefined;
+  BuyScreen: { order: OrderWithProduct };
+};
+
+export type OrderParamList = {
+  OrdersScreen: undefined;
+  ProductScreen: { itemId: string };
+  CartScreen: undefined;
+  // BuyScreen: { order: OrderWithProduct };
 };
