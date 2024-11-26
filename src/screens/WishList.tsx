@@ -54,8 +54,8 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
 
   const getWishlistProducts = async () => {
     setLoading(true);
-    if (!authToken) return console.log("No auth token provided.");
-    console.log("Getting products");
+    // if (!authToken) return console.log("No auth token provided.");
+    console.log("Getting categories...");
 
     try {
       const { data, status } = await getPopulatedWishlist();
@@ -72,7 +72,7 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       getWishlistProducts();
-    }, [authToken])
+    }, [])
   );
 
   return (

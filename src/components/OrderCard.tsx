@@ -46,7 +46,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, navigation }) => {
         ))}
       </ScrollView>
       <View style={styles.footer}>
-        <Heading>Total: {total}</Heading>
+        <Heading>Total: {total.toFixed(2)}</Heading>
         <Text>{address.substring(0, 15)}...</Text>
       </View>
     </TouchableOpacity>
