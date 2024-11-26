@@ -1,11 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState, useCallback } from "react";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Heading } from "../components/basic";
 import { useAuthContext } from "../context/AuthContext";
 import {
@@ -19,6 +13,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import { WishlistParamList } from "../navigation/types";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface WishlistProps {
   navigation: BottomTabNavigationProp<WishlistParamList, "WishListScreen">;
@@ -74,9 +69,11 @@ const WishList: React.FC<WishlistProps> = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    getWishlistProducts();
-  }, [authToken]);
+  useFocusEffect(
+    useCallback(() => {
+      getWishlistProducts();
+    }, [authToken])
+  );
 
   return (
     <View style={styles.container}>

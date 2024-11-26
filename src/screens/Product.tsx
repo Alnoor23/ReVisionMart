@@ -8,7 +8,7 @@ import React, {
 import {
   StyleSheet,
   View,
-  Modal,
+  Modal as NativeModal,
   TouchableOpacity,
   ScrollView,
   FlatList,
@@ -16,15 +16,17 @@ import {
 } from "react-native";
 import AppCarousel from "../components/AppCarousel";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { Button, Heading, Text } from "../components/basic";
+import { Button, Heading, Separator, Text } from "../components/basic";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { useAuthContext } from "../context/AuthContext";
+import Modal from "react-native-modal";
 import {
   addProductToCart,
   addProductToWishlist,
   getProductbyId,
   getProductsByCategory,
+  putSingleOrder,
   removeProductFromWishlist,
 } from "../api/services";
 import { Product as ProductType, ProductwithCategory } from "../api/types";
@@ -34,11 +36,29 @@ import colors from "../config/colors";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
 import debounce from "lodash.debounce";
+import { LiteCreditCardInput } from "react-native-credit-card-input";
+import {
+  FormField,
+  SubmitButton,
+  Form,
+  ErrorMessage,
+} from "../components/form";
+import * as Yup from "yup";
 
 export interface ProductScreenProps {
   navigation: StackNavigationProp<HomeParamList, "ProductScreen">;
   route: RouteProp<HomeParamList, "ProductScreen">;
 }
+
+const validationSchema = Yup.object().shape({
+  address: Yup.string().min(10).max(255).required("Address is required"),
+  number: Yup.number()
+    .typeError("Phone Number must be a number")
+    .required("Phone Number is required")
+    .test("len", "Please enter a valid phone number", (val) =>
+      val ? val.toString().length >= 9 : false
+    ),
+});
 
 const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   const { userWishlist, setUserWishlist, authToken } = useAuthContext();
@@ -49,6 +69,11 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+
+  const [quantity, setQuantity] = useState<number>(1);
+  const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+  const [cardValid, setCardValid] = useState(false);
+  const [error, setError] = useState("");
 
   const [productLiked, setProductLiked] = useState<Boolean>(false);
 
@@ -133,10 +158,8 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
       console.log("Error adding product to cart", error);
     }
   };
-
-  const buyNow = () => {
-    // TODO: Add navigation to checkout screen with product details
-    console.log("Buy now button clicked");
+  const buyNow = async () => {
+    setPaymentModalVisible(!paymentModalVisible);
   };
 
   const handleSimilarProductPress = (product: ProductType) => {
@@ -294,7 +317,7 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
               bold
             />
           </View>
-          <Modal visible={modalVisible} transparent>
+          <NativeModal visible={modalVisible} transparent>
             <ImageViewer
               swipeDownThreshold={100}
               enableSwipeDown
@@ -306,13 +329,161 @@ const Product: React.FC<ProductScreenProps> = ({ navigation, route }) => {
                 height: 0,
               }))}
             />
-          </Modal>
+          </NativeModal>
         </>
       ) : (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size={30} color={colors.primaryTheme} />
         </View>
       )}
+      <Modal isVisible={paymentModalVisible}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <View style={styles.modalContainer}>
+            <Heading
+              size={18}
+              align="center"
+              bottomSpace={16}
+              color="primaryTheme"
+              bold
+            >
+              Confirm Details
+            </Heading>
+            <Form
+              validationSchema={validationSchema}
+              initialValues={{
+                address: "",
+                number: "",
+              }}
+              onSubmit={async (values) => {
+                if (cardValid && product) {
+                  const order = {
+                    product: {
+                      productId: product._id,
+                      quantity: quantity,
+                    },
+                    total: product.price * quantity,
+                    address: values.address,
+                  };
+
+                  const { data, status } = await putSingleOrder(order);
+                  if (data && status == 200) {
+                    setPaymentModalVisible(!paymentModalVisible);
+
+                    return navigation.navigate("BuyScreen", { order: data });
+                  }
+                } else {
+                  console.log("Error submitting order", values, cardValid);
+                  setError("Please Check your Card Details");
+                }
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Heading>Quantity : </Heading>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      borderWidth: 1,
+                      borderRadius: 5,
+                      paddingHorizontal: 4,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          if (quantity - 1 == 0) {
+                            return console.log("it's zero quantity");
+                          }
+                          setQuantity(quantity - 1);
+                        } catch (error) {
+                          console.log("Error updating cart product :", error);
+                        }
+                      }}
+                      style={{ justifyContent: "center" }}
+                    >
+                      <MaterialCommunityIcons
+                        name="minus-thick"
+                        color={colors.mediumGrayText}
+                        size={14}
+                      />
+                    </TouchableOpacity>
+
+                    <Heading bold> {quantity} </Heading>
+
+                    <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          if (quantity + 1 > 99) {
+                            return console.log("it's above 99");
+                          }
+
+                          setQuantity(quantity + 1);
+                        } catch (error) {
+                          console.log("Error updating cart product :", error);
+                        }
+                      }}
+                      style={{ justifyContent: "center" }}
+                    >
+                      <MaterialCommunityIcons
+                        name="plus-thick"
+                        color={colors.mediumGrayText}
+                        size={14}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <Heading>
+                  Total: {product && (quantity * product?.price).toFixed(2)}$
+                </Heading>
+              </View>
+
+              <Separator height={10} />
+              <FormField name="address" placeholder="Enter your Address" />
+
+              {/* got bored so no filtering inputfields */}
+              <FormField
+                name="number"
+                placeholder="Enter your Phone Number"
+                keyboardType="number-pad"
+              />
+              <LiteCreditCardInput
+                onChange={(field) => setCardValid(field.valid)}
+              />
+
+              <ErrorMessage error={error} visible={!!error} />
+
+              <SubmitButton title="Place Order" bold />
+
+              <Text align="center" size={10} color="mediumGrayText">
+                We will send you a confirmation email and SMS.
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setQuantity(1);
+                  setPaymentModalVisible(!paymentModalVisible);
+                }}
+              >
+                <Heading
+                  color="mediumGrayText"
+                  topSpace={6}
+                  align="center"
+                  size={14}
+                  style={{ textDecorationLine: "underline" }}
+                >
+                  Go back
+                </Heading>
+              </TouchableOpacity>
+            </Form>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -355,6 +526,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 5,
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderRadius: 10,
   },
 });
 

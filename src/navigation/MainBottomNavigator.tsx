@@ -19,10 +19,10 @@ function MainBottomNavigator() {
   const navigation = useNavigation<NavigationProp<RootBottomTabParamList>>();
 
   const loadAllTabs = () => {
-    // navigation.navigate("LikedScreen");
-    // navigation.navigate("CartScreen");
-    // navigation.navigate("ProfileScreen");
     navigation.navigate("CategoryNavigator");
+    navigation.navigate("WishListScreen");
+    navigation.navigate("CartNavigator");
+    navigation.navigate("ProfileScreen");
     navigation.navigate("HomeNavigator");
   };
 

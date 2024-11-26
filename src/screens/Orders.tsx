@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Heading } from "../components/basic";
 import { getOrders } from "../api/services";
@@ -6,6 +6,7 @@ import { Orders as OrdersType } from "../api/types";
 import OrderCard from "../components/OrderCard";
 
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useFocusEffect } from "@react-navigation/native";
 import { OrderParamList } from "../navigation/types";
 
 interface OrdersProps {
@@ -29,9 +30,11 @@ const Orders: React.FC<OrdersProps> = ({ navigation }) => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getData();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

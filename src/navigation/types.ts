@@ -22,6 +22,7 @@ export type HomeParamList = {
   ProductScreen: { itemId: string };
   CategoryScreen: { category: Category };
   SearchScreen: undefined;
+  BuyScreen: { order: OrderWithProduct };
 };
 
 export type CategoryParamList = {

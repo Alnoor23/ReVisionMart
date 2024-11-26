@@ -61,12 +61,18 @@ const Buy: React.FC<BuyProps> = ({ navigation, route }) => {
           buttonColor="white"
           borderColor="primaryTheme"
           borderWidth={2}
-          onPress={() => navigation.navigate("OrdersScreen")}
+          onPress={() => {
+            navigation.navigate("CartScreen");
+            navigation.navigate("OrdersScreen");
+          }}
         />
         <Button
           title="Continue Shopping"
           bold
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.navigate("CartScreen");
+            navigation.navigate("HomeNavigator");
+          }}
         />
       </View>
     </View>

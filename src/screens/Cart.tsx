@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Heading, Text } from "../components/basic";
 import { CartWithProduct, Product } from "../api/types";
@@ -24,6 +24,7 @@ import {
 } from "../components/form";
 import { LiteCreditCardInput } from "react-native-credit-card-input";
 import * as Yup from "yup";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface CartProps {
   navigation: BottomTabNavigationProp<CartParamList, "CartScreen">;
@@ -112,9 +113,11 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    getUserCart();
-  }, [authToken]);
+  useFocusEffect(
+    useCallback(() => {
+      getUserCart();
+    }, [authToken])
+  );
 
   useEffect(() => {
     if (cart) {
@@ -303,7 +306,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
                   placeOrder(values.address);
                   setModalVisible(!modalVisible);
 
-                  // return navigation.navigate("BuyScreen");
+                  // return navigation.navigate("BuyScreen"); // DON'T
                 } else {
                   console.log("Error submitting order", values, cardValid);
                   setError("Please Check your Card Details");

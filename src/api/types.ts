@@ -1,5 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+// Some are bad type definitions (to be optimized)
+
 interface User {
   _id: string;
   name: string;
@@ -109,6 +111,12 @@ interface OrderWithProduct {
   createdAt: Date;
 }
 
+interface SingleProductOrder {
+  product: { productId: string; quantity: number };
+  total: number;
+  address: string;
+}
+
 type Orders = Order[];
 
 export {
@@ -123,6 +131,7 @@ export {
   CartWithProduct,
   OrderWithProduct,
   LoginResponseBody,
+  SingleProductOrder,
   AddWishlistPayload,
   WishlistWithProduct,
   ProductwithCategory,

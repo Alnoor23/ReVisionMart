@@ -12,6 +12,7 @@ import {
   Orders,
   Order,
   CartProduct,
+  SingleProductOrder,
 } from "./types";
 
 const prefix = "products";
@@ -69,24 +70,39 @@ const getOrders = () => apiClient.get<Orders>(`/order`);
 const putOrder = (cartId: string, total: number, address: string) =>
   apiClient.post<Order>(`/order`, { cartId, total, address });
 
+const putSingleOrder = (order: SingleProductOrder) =>
+  apiClient.post<Order>(`/order/single`, order);
+
 export {
-  search,
-  getCart,
+  // User
   getUser,
-  putOrder,
-  getOrders,
-  clearCart,
+
+  // Products
   getProducts,
-  getWishlist,
-  getCategories,
-  updateWishlist,
   getProductbyId,
+  getProductsByCategory,
+  search,
+
+  // Wishlist
+  getWishlist,
+  getPopulatedWishlist,
+  updateWishlist,
+  addProductToWishlist,
+  removeProductFromWishlist,
+
+  // Cart
+  getCart,
   getPopulatedCart,
   addProductToCart,
   updateCartProduct,
-  getPopulatedWishlist,
-  addProductToWishlist,
-  getProductsByCategory,
   removeProductFromCart,
-  removeProductFromWishlist,
+  clearCart,
+
+  // Orders
+  getOrders,
+  putOrder,
+  putSingleOrder,
+
+  // Categories
+  getCategories,
 };
